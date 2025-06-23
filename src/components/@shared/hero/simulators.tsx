@@ -1,7 +1,51 @@
+"use client";
+
 import Button from "@/components/landing/button/button";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Simulators() {
+  const [capital, setCapital] = useState<string>("10000");
+  const [duration, setDuration] = useState<number>(10);
+  const [result, setResult] = useState<string>("0");
+
+  // Calculate future value based on initial capital and duration
+  const calculateFutureValue = () => {
+    const initialCapital = parseFloat(capital.replace(/[^\d.-]/g, "")) || 0;
+    const annualRate = 0.05; // 5% annual return
+
+    // Compound interest formula: FV = PV * (1 + r)^t
+    const futureValue = initialCapital * Math.pow(1 + annualRate, duration);
+
+    // Format the result with thousand separators and 2 decimal places
+    return new Intl.NumberFormat("fr-FR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(futureValue);
+  };
+
+  // Update result whenever inputs change
+  useEffect(() => {
+    setResult(calculateFutureValue());
+  }, [capital, duration]);
+
+  // Handle capital input change
+  const handleCapitalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Allow only numbers and basic formatting
+    const value = e.target.value.replace(/[^\d]/g, "");
+    setCapital(value);
+  };
+
+  // Handle duration slider change
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDuration(parseInt(e.target.value, 10));
+  };
+
+  // Format capital for display
+  const formatCapital = (value: string) => {
+    if (!value) return "";
+    return new Intl.NumberFormat("fr-FR").format(parseInt(value, 10));
+  };
+
   return (
     <div className="relative">
       <div
@@ -73,6 +117,8 @@ export default function Simulators() {
                   className="bg-gray-50 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-9 pr-12 py-3 border-gray-200 rounded-md"
                   placeholder="10 000"
                   aria-describedby="montant-description"
+                  value={formatCapital(capital)}
+                  onChange={handleCapitalChange}
                 />
                 <span id="montant-description" className="sr-only">
                   Entrez votre capital initial en euros
@@ -93,7 +139,7 @@ export default function Simulators() {
                   aria-live="polite"
                   id="duree-value"
                 >
-                  10 ans
+                  {duration} ans
                 </span>
               </div>
               <div className="relative mt-1">
@@ -101,14 +147,15 @@ export default function Simulators() {
                   type="range"
                   min={1}
                   max={30}
-                  defaultValue={10}
+                  value={duration}
                   id="duree"
                   name="duree"
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
                   aria-valuemin={1}
                   aria-valuemax={30}
-                  aria-valuenow={10}
+                  aria-valuenow={duration}
                   aria-labelledby="duree-value"
+                  onChange={handleDurationChange}
                 />
                 <div className="absolute left-0 right-0 -bottom-6 flex justify-between text-xs text-gray-500">
                   <span>1</span>
@@ -126,7 +173,7 @@ export default function Simulators() {
                     className="text-3xl font-bold text-indigo-700"
                     aria-live="polite"
                   >
-                    16 288,95 €
+                    {result} €
                   </div>
                   <div className="text-xs text-gray-500">
                     Rendement annuel de 5%
