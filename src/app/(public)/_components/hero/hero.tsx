@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../../components/landing/button/button";
+import Button from "../button/button";
 import Simulators from "./simulators";
 
 const Hero = () => {

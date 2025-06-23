@@ -1,7 +1,7 @@
 import React from "react";
 import CardArticle, {
   ArticleProps,
-} from "@/components/landing/blog/CardArticle";
+} from "@/app/(public)/_components/blog/CardArticle";
 
 export default function BlogPage() {
   const articles: ArticleProps[] = [

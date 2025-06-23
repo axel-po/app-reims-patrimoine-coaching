@@ -1,6 +1,6 @@
-import Hero from "@/components/@shared/hero/hero";
-import Nav from "@/components/@shared/nav/nav";
-import BlogSection from "@/components/landing/blog/BlogSection";
+import Hero from "@/app/(public)/_components/hero/hero";
+import Nav from "@/app/(public)/_components/nav/nav";
+import BlogSection from "@/app/(public)/_components/blog/BlogSection";
 import React from "react";
 
 export default function HomePage() {
@@ -8,7 +8,6 @@ export default function HomePage() {
     <>
       <Nav />
       <Hero />
-
       <BlogSection />
     </>
   );

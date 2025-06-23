@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
+import { navLinks, mobileNavLinks } from "./nav-links";
 
 export default function Nav() {
   const [activeLink, setActiveLink] = useState("/");
@@ -22,8 +23,8 @@ export default function Nav() {
   return (
     <header className="fixed w-full z-50 px-4 sm:px-6 md:px-8 py-4">
       <div
-        className={`relative mx-auto max-w-6xl rounded-full transition-all duration-300 ${
-          scrolled ? "shadow-lg" : "shadow-md"
+        className={`relative mx-auto max-w-7xl rounded-full transition-all duration-300 ${
+          scrolled ? "shadow-md" : "shadow-xs"
         }`}
       >
         <div
@@ -31,10 +32,6 @@ export default function Nav() {
             scrolled ? "bg-white/70" : "bg-white/50"
           }`}
         ></div>
-
-        <div className="absolute left-0 top-0 w-full h-20 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5 rounded-full"></div>
-
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-blue-400/40 via-white/20 to-purple-400/40 rounded-full"></div>
 
         <div className="flex items-center justify-between relative z-10 h-16 px-6 max-w-7xl mx-auto">
           <Link
@@ -46,37 +43,38 @@ export default function Nav() {
             <Image
               src={logo}
               alt="Logo"
-              className="w-auto h-20 transition-transform duration-300 hover:scale-105"
+              className="w-auto h-17 transition-transform duration-300 "
             />
           </Link>
 
           <nav className="hidden md:block">
             <ul className="flex items-center h-full">
-              {[
-                { href: "/", label: "Accueil" },
-                { href: "/formations", label: "Formations" },
-                { href: "/coachs", label: "Experts" },
-                { href: "/blog", label: "Blog" },
-              ].map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.href} className="h-full">
                   <Link
                     href={link.href}
-                    className={`relative flex items-center justify-center h-16 px-5 group ${
-                      activeLink === link.href
-                        ? "text-blue-600"
-                        : "text-gray-800"
-                    }`}
+                    className={`relative flex items-center justify-center h-16 px-5 group`}
                     onClick={() => setActiveLink(link.href)}
                   >
-                    {activeLink === link.href && (
-                      <div className="absolute left-2 right-2 bottom-0 h-[3px] bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
-                    )}
-
-                    <span className="font-medium transition-all duration-300 group-hover:text-blue-600">
+                    <span
+                      className={`font-medium transition-all duration-300 ${
+                        activeLink === link.href
+                          ? "text-blue-600"
+                          : "text-gray-800 hover:text-blue-600"
+                      }`}
+                    >
                       {link.label}
                     </span>
 
-                    <div className="absolute inset-0 bg-blue-50/30 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-full"></div>
+                    {activeLink === link.href && (
+                      <div className="absolute bottom-3 h-[2px] w-1/2 bg-blue-600 rounded-full transition-all duration-300 transform origin-center"></div>
+                    )}
+
+                    <div
+                      className={`absolute bottom-3 left-1/2 transform -translate-x-1/2 h-[2px] w-0 bg-blue-600 rounded-full transition-all duration-300 group-hover:w-1/2 ${
+                        activeLink === link.href ? "opacity-0" : "opacity-100"
+                      }`}
+                    ></div>
                   </Link>
                 </li>
               ))}
@@ -85,13 +83,13 @@ export default function Nav() {
 
           <div className="flex items-center">
             <Link
-              href="/espace-client"
+              href="/dashboard"
               className="hidden md:flex items-center"
-              aria-label="Accéder à l'espace client"
+              aria-label="Accéder à l'espace abonné"
             >
-              <div className="relative overflow-hidden rounded-full transition-transform duration-300 hover:scale-105">
+              <div className="relative overflow-hidden rounded-full transition-transform duration-300">
                 <div className="px-5 py-2.5 font-medium text-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 rounded-full">
-                  <span>Espace client</span>
+                  <span>Espace abonné</span>
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/30 rounded-full"></div>
@@ -137,14 +135,7 @@ export default function Nav() {
           }`}
         >
           <ul className="space-y-0 divide-y divide-gray-100">
-            {[
-              { href: "/", label: "Accueil" },
-              { href: "/formations", label: "Formations" },
-              { href: "/simulateurs", label: "Simulateurs" },
-              { href: "/coachs", label: "Experts" },
-              { href: "/blog", label: "Blog" },
-              { href: "/contact", label: "Contact" },
-            ].map((link, index) => (
+            {mobileNavLinks.map((link, index) => (
               <li
                 key={link.href}
                 className={`transition-all duration-300 ${
@@ -154,7 +145,7 @@ export default function Nav() {
               >
                 <Link
                   href={link.href}
-                  className={`flex items-center py-3 transition-colors duration-300 ${
+                  className={`flex items-center py-3 transition-colors duration-300 relative ${
                     activeLink === link.href ? "text-blue-600" : "text-gray-800"
                   }`}
                   onClick={() => {
@@ -162,14 +153,10 @@ export default function Nav() {
                     setMenuOpen(false);
                   }}
                 >
-                  <div
-                    className={`w-[3px] h-5 rounded-full transition-all duration-300 ${
-                      activeLink === link.href
-                        ? "bg-gradient-to-b from-blue-600 to-purple-600"
-                        : "bg-transparent"
-                    } mr-3`}
-                  ></div>
-                  <span className="font-medium">{link.label}</span>
+                  {activeLink === link.href && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 rounded-r-md"></div>
+                  )}
+                  <span className="font-medium ml-3">{link.label}</span>
                 </Link>
               </li>
             ))}
@@ -181,7 +168,7 @@ export default function Nav() {
             >
               <Link
                 href="/espace-client"
-                className="flex items-center justify-center w-full py-3 font-medium text-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 hover:from-blue-700 hover:to-purple-700 transform hover:scale-[0.98]"
+                className="flex items-center justify-center w-full py-3 font-medium text-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 hover:from-blue-700 hover:to-purple-700 transform"
                 onClick={() => setMenuOpen(false)}
               >
                 Espace client

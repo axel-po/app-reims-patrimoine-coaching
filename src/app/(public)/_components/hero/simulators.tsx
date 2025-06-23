@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/landing/button/button";
+import Button from "@/app/(public)/_components/button/button";
 import React, { useState, useEffect } from "react";
 
 export default function Simulators() {
