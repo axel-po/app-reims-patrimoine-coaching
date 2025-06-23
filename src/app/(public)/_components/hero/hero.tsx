@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../button/button";
 import Simulators from "./simulators";
+import Avis from "./avis";
 
 const Hero = () => {
   return (
@@ -12,10 +13,10 @@ const Hero = () => {
         className="absolute -top-[30%] -left-[10%] w-[50%] h-[70%] rounded-[40%] bg-gradient-to-b from-indigo-50 to-blue-100 opacity-70 blur-3xl z-0"
         aria-hidden="true"
       ></div>
-      <div
+      {/* <div
         className="absolute top-[40%] -right-[20%] w-[50%] h-[60%] rounded-[60%] bg-gradient-to-t from-purple-50 to-pink-100 opacity-60 blur-3xl z-0"
         aria-hidden="true"
-      ></div>
+      ></div> */}
 
       <div
         className="absolute inset-0 bg-[linear-gradient(rgba(80,70,230,0.03)_1px,transparent_1px),linear-gradient(to_right,rgba(80,70,230,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]"
@@ -24,7 +25,7 @@ const Hero = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 lg:col-span-6 lg:col-start-2">
+          <div className="col-span-12 lg:col-span-6 lg:col-start-1">
             <h1 className="text-[clamp(2.5rem,8vw,4.5rem)] font-bold leading-[1.05] mb-8">
               Reprends le contrôle de ton
               <span className="relative inline-block ml-2">
@@ -53,10 +54,10 @@ const Hero = () => {
               </Button>
             </div>
 
-            {/* <Avis /> */}
+            <Avis />
           </div>
 
-          <div className="col-span-12 lg:col-span-5">
+          <div className="col-span-12 lg:col-span-6">
             <Simulators />
           </div>
         </div>
