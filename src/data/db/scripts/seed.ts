@@ -1,10 +1,11 @@
 import { faker } from "@faker-js/faker";
-import { user, courses, courseContents, userProgress } from "../../models";
+import { user, courses, modules, lessons, userProgress } from "../../models";
 import initDotEnv from "./env";
 
 const USERS_COUNT = 50;
-const COURSES_COUNT = 15;
-const COURSE_CONTENTS_PER_COURSE = 8;
+const COURSES_COUNT = 8;
+const MODULES_PER_COURSE = 6;
+const LESSONS_PER_MODULE = 4;
 const USER_PROGRESS_PERCENTAGE = 0.3; // 30% of users will have progress
 
 async function seedDatabase() {
@@ -20,7 +21,8 @@ async function seedDatabase() {
     // Clear existing data
     console.log("🧹 Clearing existing data...");
     await db.delete(userProgress);
-    await db.delete(courseContents);
+    await db.delete(lessons);
+    await db.delete(modules);
     await db.delete(courses);
     await db.delete(user);
 
@@ -45,31 +47,22 @@ async function seedDatabase() {
     // Seed courses
     console.log("📚 Seeding courses...");
     const coursesData = [];
-    const courseTypes = [
-      "Investissement immobilier",
-      "Patrimoine financier",
-      "Fiscalité",
-      "Assurance vie",
-      "Retraite",
-      "Succession",
-      "Défiscalisation",
-      "SCPI",
+    const courseTopics = [
+      "Investissement Immobilier",
+      "Patrimoine Financier",
+      "Fiscalité et Optimisation",
+      "Assurance Vie",
+      "Retraite et Prévoyance",
+      "SCPI et Crowdfunding",
       "Cryptomonnaies",
-      "Bourse",
-      "Épargne",
-      "Crédit immobilier",
-      "Gestion de patrimoine",
-      "PEA",
-      "Plan d'épargne retraite",
+      "Bourse et Actions",
     ];
 
     for (let i = 0; i < COURSES_COUNT; i++) {
       const courseData = {
         id: faker.string.uuid(),
-        title: `Formation ${
-          courseTypes[i % courseTypes.length]
-        } - ${faker.lorem.words(2)}`,
-        description: faker.lorem.paragraphs(2, "\n\n"),
+        title: `Formation ${courseTopics[i % courseTopics.length]}`,
+        description: faker.lorem.paragraphs(3, "\n\n"),
         createdAt: faker.date.past({ years: 1 }),
       };
       coursesData.push(courseData);
@@ -77,41 +70,86 @@ async function seedDatabase() {
     await db.insert(courses).values(coursesData);
     console.log(`✅ Created ${coursesData.length} courses`);
 
-    // Seed course contents
-    console.log("📖 Seeding course contents...");
-    const allCourseContents = [];
-    const contentTypes = ["video", "text", "pdf"];
+    // Seed modules
+    console.log("📦 Seeding modules...");
+    const allModules = [];
+    const moduleTemplates = [
+      { title: "Les Fondamentaux", desc: "Bases essentielles à connaître" },
+      {
+        title: "Épargne et Liquidités",
+        desc: "Gérer sa trésorerie efficacement",
+      },
+      {
+        title: "Investissements",
+        desc: "Stratégies d'investissement avancées",
+      },
+      { title: "Fiscalité", desc: "Optimisation fiscale légale" },
+      { title: "Gestion des Risques", desc: "Protéger son patrimoine" },
+      { title: "Transmission", desc: "Préparer la succession" },
+    ];
 
     for (const course of coursesData) {
-      for (let i = 0; i < COURSE_CONTENTS_PER_COURSE; i++) {
-        const contentType = faker.helpers.arrayElement(contentTypes);
-        const contentData = {
+      for (let i = 0; i < MODULES_PER_COURSE; i++) {
+        const template = moduleTemplates[i % moduleTemplates.length];
+        const moduleData = {
           id: faker.string.uuid(),
           courseId: course.id,
-          title: `${i + 1}. ${faker.lorem.sentence({ min: 3, max: 6 })}`,
-          type: contentType,
-          contentUrl:
-            contentType === "video"
-              ? faker.internet.url() + "/video.mp4"
-              : contentType === "pdf"
-              ? faker.internet.url() + "/document.pdf"
+          title: `${String(i + 1).padStart(2, "0")}: ${template.title}`,
+          description: template.desc,
+          position: i + 1,
+          duration: `${faker.number.int({ min: 45, max: 150 })}min`,
+          createdAt: faker.date.past({ years: 1 }),
+        };
+        allModules.push(moduleData);
+      }
+    }
+    await db.insert(modules).values(allModules);
+    console.log(`✅ Created ${allModules.length} modules`);
+
+    // Seed lessons
+    console.log("📖 Seeding lessons...");
+    const allLessons = [];
+    const lessonTypes = ["video", "text", "document"];
+    const lessonTitles = [
+      "Introduction et concepts clés",
+      "Analyse des opportunités",
+      "Stratégies pratiques",
+      "Cas concrets et exemples",
+    ];
+
+    for (const moduleItem of allModules) {
+      for (let i = 0; i < LESSONS_PER_MODULE; i++) {
+        const lessonType = faker.helpers.arrayElement(lessonTypes);
+        const lessonData = {
+          id: faker.string.uuid(),
+          moduleId: moduleItem.id,
+          title: lessonTitles[i % lessonTitles.length],
+          type: lessonType,
+          videoUrl:
+            lessonType === "video"
+              ? `https://example.com/videos/${faker.string.uuid()}.mp4`
               : null,
           textContent:
-            contentType === "text"
+            lessonType === "text"
               ? faker.lorem.paragraphs(
-                  faker.number.int({ min: 3, max: 8 }),
+                  faker.number.int({ min: 5, max: 12 }),
                   "\n\n"
                 )
               : null,
+          documentUrl:
+            lessonType === "document"
+              ? `https://example.com/docs/${faker.string.uuid()}.pdf`
+              : null,
+          duration: `${faker.number.int({ min: 8, max: 25 })}min`,
           position: i + 1,
-          isFree: i < 2, // First 2 contents are free
+          isFree: i < 2, // First 2 lessons are free
           createdAt: faker.date.past({ years: 1 }),
         };
-        allCourseContents.push(contentData);
+        allLessons.push(lessonData);
       }
     }
-    await db.insert(courseContents).values(allCourseContents);
-    console.log(`✅ Created ${allCourseContents.length} course contents`);
+    await db.insert(lessons).values(allLessons);
+    console.log(`✅ Created ${allLessons.length} lessons`);
 
     // Seed user progress
     console.log("📊 Seeding user progress...");
@@ -129,24 +167,28 @@ async function seedDatabase() {
       );
 
       for (const course of userCourses) {
-        const courseContent = allCourseContents.filter(
-          (c) => c.courseId === course.id
+        // Get all lessons for this course
+        const courseModules = allModules.filter(
+          (m) => m.courseId === course.id
+        );
+        const courseLessons = allLessons.filter((l) =>
+          courseModules.some((m) => m.id === l.moduleId)
         );
 
-        // User completes 30-90% of the course content
+        // User completes 30-90% of the course lessons
         const completionRate = faker.number.float({ min: 0.3, max: 0.9 });
         const completedCount = Math.floor(
-          courseContent.length * completionRate
+          courseLessons.length * completionRate
         );
-        const completedContents = courseContent.slice(0, completedCount);
+        const completedLessons = courseLessons.slice(0, completedCount);
 
-        for (const content of completedContents) {
+        for (const lesson of completedLessons) {
           const progressData = {
             userId: activeUser.id,
-            courseContentId: content.id,
+            lessonId: lesson.id,
             completed: true,
             completedAt: faker.date.between({
-              from: content.createdAt,
+              from: lesson.createdAt,
               to: new Date(),
             }),
           };
@@ -167,7 +209,8 @@ async function seedDatabase() {
 📊 Summary:
 - ${users.length} users created
 - ${coursesData.length} courses created  
-- ${allCourseContents.length} course contents created
+- ${allModules.length} modules created
+- ${allLessons.length} lessons created
 - ${userProgressData.length} user progress records created
     `);
   } catch (error) {
