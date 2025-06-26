@@ -5,11 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { navLinks, mobileNavLinks } from "./nav-links";
+import { useSession } from "@/lib/auth-client";
 
 export default function Nav() {
   const [activeLink, setActiveLink] = useState("/");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -104,13 +107,13 @@ export default function Nav() {
 
           <div className="flex items-center">
             <Link
-              href="/login"
+              href={session?.user ? "/dashboard" : "/login"}
               className="hidden md:flex items-center"
               aria-label="Accéder à l'espace abonné"
             >
               <div className="relative overflow-hidden rounded-full transition-transform duration-300">
                 <div className="px-5 py-2.5 font-medium text-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 rounded-full">
-                  <span>Espace abonné</span>
+                  <span>{session?.user ? "Dashboard" : "Espace abonné"}</span>
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/30 rounded-full"></div>
@@ -188,11 +191,11 @@ export default function Nav() {
               style={{ transitionDelay: "350ms" }}
             >
               <Link
-                href="/espace-client"
+                href={session?.user ? "/dashboard" : "/login"}
                 className="flex items-center justify-center w-full py-3 font-medium text-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 hover:from-blue-700 hover:to-purple-700 transform"
                 onClick={() => setMenuOpen(false)}
               >
-                Espace client
+                {session?.user ? "Dashboard" : "Espace client"}
               </Link>
             </li>
           </ul>
