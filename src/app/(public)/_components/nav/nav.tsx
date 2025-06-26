@@ -104,7 +104,7 @@ export default function Nav() {
 
           <div className="flex items-center">
             <Link
-              href="/dashboard"
+              href="/login"
               className="hidden md:flex items-center"
               aria-label="Accéder à l'espace abonné"
             >
