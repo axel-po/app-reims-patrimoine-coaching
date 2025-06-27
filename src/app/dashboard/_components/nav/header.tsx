@@ -26,7 +26,7 @@ export function Header() {
             <span className="absolute -top-1 -right-1 size-2 bg-indigo-500 rounded-full animate-pulse" />
           </div>
           <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            MindTrack AI
+            Reims Patrimoine Coaching
           </span>
           <Sparkles className="ml-1 size-4 text-amber-500 opacity-80" />
         </Link>
