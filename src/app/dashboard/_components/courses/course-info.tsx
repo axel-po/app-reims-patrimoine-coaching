@@ -1,5 +1,5 @@
 import React from "react";
-import { Clock, Star } from "lucide-react";
+import { Clock } from "lucide-react";
 
 interface CourseInfoProps {
   title: string;
@@ -13,8 +13,6 @@ export default function CourseInfo({
   title,
   description,
   duration,
-  rating,
-  enrolled,
 }: CourseInfoProps) {
   return (
     <div className="px-3 pb-4 border-b border-slate-100">
@@ -26,12 +24,6 @@ export default function CourseInfo({
           <div className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
             <span>{duration}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-            <span>
-              {rating} ({enrolled} reviews)
-            </span>
           </div>
         </div>
       </div>
