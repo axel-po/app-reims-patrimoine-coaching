@@ -5,8 +5,6 @@ interface CourseInfoProps {
   title: string;
   description: string;
   duration: string;
-  rating: number;
-  enrolled: number;
 }
 
 export default function CourseInfo({

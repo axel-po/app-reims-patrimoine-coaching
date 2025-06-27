@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   Sidebar,
@@ -13,15 +11,18 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 
-import { courseData } from "../../fakeData";
-import { useLessonContext } from "../context/lesson-context";
 import Author from "../author/author";
-import CourseInfo from "./course-info";
-import ModuleAccordion from "./module-accordion";
-import CourseProgress from "./course-progress";
+import CourseInfo from "../courses/course-info";
+import ModuleAccordion from "../courses/module-accordion";
+import CourseProgress from "../courses/course-progress";
+import { getAllCoursesWithContent } from "@/services/courses-service";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { currentLesson, lessons, selectLesson } = useLessonContext();
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const courses = await getAllCoursesWithContent();
+
+  const modules = courses.data?.[0]?.modules;
 
   return (
     <Sidebar
@@ -50,15 +51,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
 
         <CourseInfo
-          title={courseData.title}
-          description={courseData.description}
-          duration={courseData.duration}
-          rating={courseData.rating}
-          enrolled={courseData.enrolled}
+          title={courses?.data?.[0]?.title}
+          description={courses?.data?.[0]?.description}
+          duration={"6h 15min"}
         />
 
         <div className="px-3 py-3">
-          <CourseProgress modules={lessons} />
+          <CourseProgress modules={courses?.data?.[0]?.modules} />
         </div>
       </SidebarHeader>
 
@@ -69,12 +68,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </h3>
 
           <div className="space-y-1">
-            {lessons.map((module) => (
+            {modules.map((module) => (
               <ModuleAccordion
                 key={module.id}
                 module={module}
-                currentLesson={currentLesson}
-                selectLesson={selectLesson}
+                // currentLesson={currentLesson}
+                // selectLesson={selectLesson}
                 defaultOpen={module.id === 1}
               />
             ))}
