@@ -1,5 +1,5 @@
 import { pgTable, serial, uuid, boolean, timestamp } from "drizzle-orm/pg-core";
-import { lessons } from "./lessons";
+import { lessons } from "./lessons-model";
 
 export const userProgress = pgTable("user_progress", {
   id: serial("id").primaryKey(),
@@ -10,3 +10,5 @@ export const userProgress = pgTable("user_progress", {
   completed: boolean("completed").default(false),
   completedAt: timestamp("completed_at"),
 });
+
+export type UserProgressModel = typeof userProgress.$inferSelect;

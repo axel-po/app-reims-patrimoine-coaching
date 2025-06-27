@@ -6,3 +6,5 @@ export const courses = pgTable("courses", {
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export type CourseModel = typeof courses.$inferSelect;

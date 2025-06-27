@@ -2,8 +2,7 @@ import { faker } from "@faker-js/faker";
 import { user, courses, modules, lessons, userProgress } from "../../models";
 import initDotEnv from "./env";
 
-const USERS_COUNT = 50;
-const COURSES_COUNT = 8;
+const COURSES_COUNT = 1; // Only create 1 course
 const MODULES_PER_COURSE = 6;
 const LESSONS_PER_MODULE = 4;
 const USER_PROGRESS_PERCENTAGE = 0.3; // 30% of users will have progress
@@ -18,31 +17,20 @@ async function seedDatabase() {
   const { db } = await import("../client");
 
   try {
-    // Clear existing data
+    // Clear existing data (except users)
     console.log("🧹 Clearing existing data...");
     await db.delete(userProgress);
     await db.delete(lessons);
     await db.delete(modules);
     await db.delete(courses);
-    await db.delete(user);
+    // Don't delete users: await db.delete(user);
 
-    // Seed users
-    console.log("👥 Seeding users...");
-    const users = [];
-    for (let i = 0; i < USERS_COUNT; i++) {
-      const userData = {
-        id: faker.string.uuid(),
-        name: faker.person.fullName(),
-        email: faker.internet.email().toLowerCase(),
-        emailVerified: faker.datatype.boolean({ probability: 0.8 }),
-        image: faker.image.avatar(),
-        createdAt: faker.date.past({ years: 2 }),
-        updatedAt: new Date(),
-      };
-      users.push(userData);
-    }
-    await db.insert(user).values(users);
-    console.log(`✅ Created ${users.length} users`);
+    // Get existing users for progress seeding
+    const existingUsers = await db.select().from(user);
+    console.log(`👥 Found ${existingUsers.length} existing users`);
+
+    // Skip user creation since USERS_COUNT = 0
+    const users = existingUsers;
 
     // Seed courses
     console.log("📚 Seeding courses...");
@@ -109,7 +97,6 @@ async function seedDatabase() {
     // Seed lessons
     console.log("📖 Seeding lessons...");
     const allLessons = [];
-    const lessonTypes = ["video", "text", "document"];
     const lessonTitles = [
       "Introduction et concepts clés",
       "Analyse des opportunités",
@@ -119,30 +106,23 @@ async function seedDatabase() {
 
     for (const moduleItem of allModules) {
       for (let i = 0; i < LESSONS_PER_MODULE; i++) {
-        const lessonType = faker.helpers.arrayElement(lessonTypes);
         const lessonData = {
           id: faker.string.uuid(),
           moduleId: moduleItem.id,
           title: lessonTitles[i % lessonTitles.length],
-          type: lessonType,
-          videoUrl:
-            lessonType === "video"
-              ? `https://example.com/videos/${faker.string.uuid()}.mp4`
-              : null,
-          textContent:
-            lessonType === "text"
-              ? faker.lorem.paragraphs(
-                  faker.number.int({ min: 5, max: 12 }),
-                  "\n\n"
-                )
-              : null,
-          documentUrl:
-            lessonType === "document"
-              ? `https://example.com/docs/${faker.string.uuid()}.pdf`
-              : null,
+          videoUrl: `https://example.com/videos/${faker.string.uuid()}.mp4`,
+          textContent: faker.datatype.boolean()
+            ? faker.lorem.paragraphs(
+                faker.number.int({ min: 5, max: 12 }),
+                "\n\n"
+              )
+            : null,
+          documentUrl: faker.datatype.boolean()
+            ? `https://example.com/docs/${faker.string.uuid()}.pdf`
+            : null,
           duration: `${faker.number.int({ min: 8, max: 25 })}min`,
           position: i + 1,
-          isFree: i < 2, // First 2 lessons are free
+          isFree: i < 2,
           createdAt: faker.date.past({ years: 1 }),
         };
         allLessons.push(lessonData);

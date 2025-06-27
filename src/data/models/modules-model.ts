@@ -6,7 +6,7 @@ import {
   timestamp,
   integer,
 } from "drizzle-orm/pg-core";
-import { courses } from "./courses";
+import { courses } from "./courses-model";
 
 export const modules = pgTable("modules", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -19,3 +19,5 @@ export const modules = pgTable("modules", {
   duration: varchar("duration", { length: 20 }), // "45min", "1h 30min"
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export type ModuleModel = typeof modules.$inferSelect;
