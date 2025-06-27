@@ -13,12 +13,7 @@ export default function Dashboard() {
     useLessonContext();
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{
-        background: `linear-gradient(to bottom, var(--background), color-mix(in oklch, var(--background) 95%, var(--muted) 5%))`,
-      }}
-    >
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="flex">
         <div className="flex-1 flex flex-col h-[calc(100vh-73px)]">
           <div className="flex-1 flex flex-col p-8">

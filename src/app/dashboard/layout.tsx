@@ -1,5 +1,5 @@
 import { SiteHeader } from "./_components/nav/site-header";
-import { AppSidebar } from "./_components/sidebar/app-sidebar";
+import { AppSidebar } from "./_components/courses/course-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { LessonProvider } from "./_components/context/lesson-context";
 import React from "react";
@@ -14,7 +14,7 @@ export default function DashboardLayout({
       <SidebarProvider
         style={
           {
-            "--sidebar-width": "calc(var(--spacing) * 72)",
+            "--sidebar-width": "calc(var(--spacing) * 92)",
             "--header-height": "calc(var(--spacing) * 12)",
           } as React.CSSProperties
         }
