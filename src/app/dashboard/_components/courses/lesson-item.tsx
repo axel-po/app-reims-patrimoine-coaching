@@ -1,11 +1,11 @@
 import React from "react";
 import { CheckCircle2, Circle } from "lucide-react";
-import { Lesson } from "../../fakeData";
+import { LessonModel } from "@/data/models/lessons-model";
 
 interface LessonItemProps {
-  lesson: Lesson;
+  lesson: LessonModel;
   isSelected: boolean;
-  onSelect: (lesson: Lesson) => void;
+  onSelect: (lesson: LessonModel) => void;
 }
 
 export default function LessonItem({
@@ -24,7 +24,7 @@ export default function LessonItem({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {lesson.completed ? (
+          {lesson.isFree ? (
             <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />
           ) : (
             <Circle className="h-4 w-4 text-slate-300 shrink-0" />

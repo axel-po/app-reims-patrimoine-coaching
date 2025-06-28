@@ -7,15 +7,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Lesson } from "../../fakeData";
+
 import ModuleHeader from "./module-header";
 import LessonItem from "./lesson-item";
+import { LessonModel } from "@/data/models/lessons-model";
 
 interface Module {
   id: number;
   title: string;
   duration: string;
-  lessons: Lesson[];
+  lessons: LessonModel[];
 }
 
 interface ModuleAccordionProps {

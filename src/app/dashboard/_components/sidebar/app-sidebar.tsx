@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
   Sidebar,
@@ -10,15 +12,42 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
+import { useCoursesStore } from "@/stores/courses-store";
+import { useModulesStore } from "@/stores/modules-store";
 
 import Author from "../author/author";
 import CourseInfo from "../courses/course-info";
 import ModuleAccordion from "../courses/module-accordion";
 import CourseProgress from "../courses/course-progress";
 
-export async function AppSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { courses, isLoading, error, fetchCourses } = useCoursesStore();
+  const {
+    modules,
+    isLoading: modulesLoading,
+    error: modulesError,
+    fetchModulesByCourseId,
+  } = useModulesStore();
+
+  // GET ALL COURSES FROM THE DATABASE
+  React.useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses]);
+
+  // If later we have multiple courses, we will need to change this
+  React.useEffect(() => {
+    if (courses[0]?.id) {
+      fetchModulesByCourseId(courses[0].id);
+    }
+  }, [courses, fetchModulesByCourseId]);
+
+  // GET THE FIRST COURSE
+  const currentCourse = courses[0];
+
+  if (error) {
+    return <div>Error loading courses: {error}</div>;
+  }
+
   return (
     <Sidebar
       collapsible="offcanvas"
@@ -46,11 +75,9 @@ export async function AppSidebar({
         </SidebarMenu>
 
         <CourseInfo
-          title={"Investissement & Patrimoine"}
-          description={
-            "Maîtrisez la gestion de patrimoine et l'investissement de A à Z"
-          }
-          duration={"6h 15min"}
+          title={currentCourse.title}
+          description={currentCourse.description || ""}
+          duration={"N/A"}
         />
 
         <div className="px-3 py-3">
@@ -64,17 +91,25 @@ export async function AppSidebar({
             Course content
           </h3>
 
-          <div className="space-y-1">
-            <ModuleAccordion
-              key={1}
-              module={{
-                id: 1,
-                title: "01: Les Fondamentaux",
-                duration: "45min",
-                lessons: [],
-              }}
-            />
-          </div>
+          {isLoading || modulesLoading ? (
+            <div>Loading...</div>
+          ) : modulesError ? (
+            <div>Error loading modules: {modulesError}</div>
+          ) : (
+            <div className="space-y-1">
+              {modules.map((module, index) => (
+                <ModuleAccordion
+                  key={module.id}
+                  module={{
+                    id: index + 1,
+                    title: module.title,
+                    duration: module.duration || "N/A",
+                    lessons: [],
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <Author />
