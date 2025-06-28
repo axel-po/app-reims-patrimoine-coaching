@@ -15,15 +15,10 @@ import Author from "../author/author";
 import CourseInfo from "../courses/course-info";
 import ModuleAccordion from "../courses/module-accordion";
 import CourseProgress from "../courses/course-progress";
-import { getAllCoursesWithContent } from "@/services/courses-service";
 
 export async function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const courses = await getAllCoursesWithContent();
-
-  const modules = courses.data?.[0]?.modules;
-
   return (
     <Sidebar
       collapsible="offcanvas"
@@ -51,13 +46,15 @@ export async function AppSidebar({
         </SidebarMenu>
 
         <CourseInfo
-          title={courses?.data?.[0]?.title}
-          description={courses?.data?.[0]?.description}
+          title={"Investissement & Patrimoine"}
+          description={
+            "Maîtrisez la gestion de patrimoine et l'investissement de A à Z"
+          }
           duration={"6h 15min"}
         />
 
         <div className="px-3 py-3">
-          <CourseProgress modules={courses?.data?.[0]?.modules} />
+          <CourseProgress modules={[]} />
         </div>
       </SidebarHeader>
 
@@ -68,15 +65,15 @@ export async function AppSidebar({
           </h3>
 
           <div className="space-y-1">
-            {modules.map((module) => (
-              <ModuleAccordion
-                key={module.id}
-                module={module}
-                // currentLesson={currentLesson}
-                // selectLesson={selectLesson}
-                defaultOpen={module.id === 1}
-              />
-            ))}
+            <ModuleAccordion
+              key={1}
+              module={{
+                id: 1,
+                title: "01: Les Fondamentaux",
+                duration: "45min",
+                lessons: [],
+              }}
+            />
           </div>
         </div>
 

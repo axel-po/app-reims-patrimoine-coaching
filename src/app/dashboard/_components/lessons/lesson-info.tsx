@@ -1,20 +1,12 @@
 import React from "react";
 import { Clock, Users, Star } from "lucide-react";
-import { Lesson } from "../../fakeData";
-
-interface LessonInfoProps {
-  lesson: Lesson;
-  courseTitle: string;
-  enrolled: number;
-  rating: number;
-}
 
 export default function LessonInfo({
   lesson,
   courseTitle,
   enrolled,
   rating,
-}: LessonInfoProps) {
+}: any) {
   return (
     <div className="mb-6">
       <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">

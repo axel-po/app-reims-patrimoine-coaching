@@ -20,15 +20,11 @@ interface Module {
 
 interface ModuleAccordionProps {
   module: Module;
-  // currentLesson: Lesson;
-  // selectLesson: (lesson: Lesson) => void;
   defaultOpen?: boolean;
 }
 
 export default function ModuleAccordion({
   module,
-  // currentLesson,
-  // selectLesson,
   defaultOpen = false,
 }: ModuleAccordionProps) {
   return (
@@ -47,8 +43,8 @@ export default function ModuleAccordion({
               <LessonItem
                 key={lesson.id}
                 lesson={lesson}
-                // isSelected={currentLesson.id === lesson.id}
-                // onSelect={selectLesson}
+                isSelected={false}
+                onSelect={() => {}}
               />
             ))}
           </div>

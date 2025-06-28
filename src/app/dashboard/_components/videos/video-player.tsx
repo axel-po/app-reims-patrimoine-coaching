@@ -1,9 +1,9 @@
 import React from "react";
 
 interface VideoPlayerProps {
-  videoUrl?: string; // Direct R2 URL or video key
+  videoUrl?: string;
   videoTitle?: string;
-  videoKey?: string; // Alternative: just pass the R2 key
+  videoKey?: string;
 }
 
 export default function VideoPlayer({
@@ -11,7 +11,7 @@ export default function VideoPlayer({
   videoTitle = "Vidéo de formation",
   videoKey,
 }: VideoPlayerProps) {
-  // If we have a key but no URL, generate the R2 URL
+  // TODO: Replace with actual R2 URL
   const finalVideoUrl =
     videoUrl ||
     (videoKey
