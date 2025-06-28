@@ -1,11 +1,11 @@
 import React from "react";
-import { Lesson } from "../../fakeData";
+import { LessonModel } from "@/data/models/lessons-model";
 
 interface Module {
-  id: number;
+  id: string;
   title: string;
   duration: string;
-  lessons: Lesson[];
+  lessons: LessonModel[];
 }
 
 interface CourseProgressProps {
@@ -24,7 +24,7 @@ export default function CourseProgress({
 
   const completedLessons = modules.reduce(
     (total, module) =>
-      total + module.lessons.filter((lesson) => lesson.completed).length,
+      total + module.lessons.filter((lesson) => lesson.isFree).length,
     0
   );
 

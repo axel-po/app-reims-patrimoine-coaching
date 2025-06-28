@@ -43,6 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   // GET THE FIRST COURSE
   const currentCourse = courses[0];
+  console.log("currentCourse", currentCourse);
 
   if (error) {
     return <div>Error loading courses: {error}</div>;
@@ -75,8 +76,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
 
         <CourseInfo
-          title={currentCourse.title}
-          description={currentCourse.description || ""}
+          title={currentCourse?.title}
+          description={currentCourse?.description || ""}
           duration={"N/A"}
         />
 
@@ -97,11 +98,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <div>Error loading modules: {modulesError}</div>
           ) : (
             <div className="space-y-1">
-              {modules.map((module, index) => (
+              {modules.map((module) => (
                 <ModuleAccordion
                   key={module.id}
                   module={{
-                    id: index + 1,
+                    id: module.id,
                     title: module.title,
                     duration: module.duration || "N/A",
                     lessons: [],
