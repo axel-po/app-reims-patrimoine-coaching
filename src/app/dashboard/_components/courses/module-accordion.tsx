@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +12,7 @@ import ModuleHeader from "./module-header";
 import LessonItem from "./lesson-item";
 import { LessonModel } from "@/data/models/lessons-model";
 import { useLessonsStore } from "@/stores/lessons-store";
+import { useActiveLessonStore } from "@/stores";
 
 interface Module {
   id: string;
@@ -35,6 +36,15 @@ export default function ModuleAccordion({
     error: lessonsError,
     fetchLessonsByModuleId,
   } = useLessonsStore();
+
+  const { activeLesson } = useActiveLessonStore();
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(
+    activeLesson?.id || null
+  );
+
+  const handleLessonSelect = (lesson: LessonModel) => {
+    setSelectedLessonId(lesson.id);
+  };
 
   const handleAccordionValueChange = (value: string[]) => {
     if (value.includes(`module-${module.id}`)) {
@@ -63,8 +73,8 @@ export default function ModuleAccordion({
                 <LessonItem
                   key={lesson.id}
                   lesson={lesson}
-                  isSelected={false}
-                  onSelect={() => {}}
+                  isSelected={selectedLessonId === lesson.id}
+                  onSelect={handleLessonSelect}
                 />
               ))
             )}

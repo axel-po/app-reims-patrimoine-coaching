@@ -1,6 +1,7 @@
 import React from "react";
 import { CheckCircle2, Circle } from "lucide-react";
 import { LessonModel } from "@/data/models/lessons-model";
+import { useActiveLessonStore } from "@/stores";
 
 interface LessonItemProps {
   lesson: LessonModel;
@@ -13,9 +14,16 @@ export default function LessonItem({
   isSelected,
   onSelect,
 }: LessonItemProps) {
+  const { setActiveLesson } = useActiveLessonStore();
+
+  const handleSelect = () => {
+    setActiveLesson(lesson);
+    onSelect(lesson);
+  };
+
   return (
     <button
-      onClick={() => onSelect(lesson)}
+      onClick={handleSelect}
       className={`w-full text-left py-2 px-3 rounded-lg text-sm transition-all duration-200 ${
         isSelected
           ? "bg-gradient-to-r from-purple-50 to-blue-50 text-purple-700 font-medium border border-purple-200"
