@@ -18,7 +18,6 @@ coursesContainer.register({
 
 export default coursesContainer;
 
-// Helper to get instances
 export const getCoursesUseCase = (): CoursesUseCase => {
   return coursesContainer.resolve("coursesUseCase");
 };

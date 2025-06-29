@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { Course } from "@/domain/models/courses.interface";
-import { CoursesUseCase } from "@/domain/usecases/courses.usecase";
-import { createCoursesRepository } from "@/infrastructure/repositories/courses.repository";
+import {
+  getAllCoursesAction,
+  getCourseByIdAction,
+} from "@/userinterface/actions/courses.actions";
 
-// Define CoursesState locally since it's not exported from the domain
 interface CoursesState {
   courses: Course[];
   isLoading: boolean;
@@ -25,87 +26,79 @@ const initialState: CoursesState = {
   error: null,
 };
 
-export const useCoursesPresenter = create<CoursesPresenterState>((set) => {
-  const repository = createCoursesRepository();
-  const useCase = new CoursesUseCase(repository);
+export const useCoursesPresenter = create<CoursesPresenterState>((set) => ({
+  ...initialState,
 
-  return {
-    ...initialState,
+  fetchCourses: async () => {
+    set({ isLoading: true, error: null });
 
-    fetchCourses: async () => {
-      set({ isLoading: true, error: null });
+    try {
+      const result = await getAllCoursesAction();
 
-      try {
-        const result = await useCase.getAllCourses();
-
-        if (result.error) {
-          set({
-            isLoading: false,
-            error: result.error.message,
-          });
-          return;
-        }
-
-        set({
-          courses: result.data,
-          isLoading: false,
-        });
-      } catch (error) {
+      if (result.error) {
         set({
           isLoading: false,
-          error:
-            error instanceof Error ? error.message : "Failed to fetch courses",
+          error: result.error.message,
         });
+        return;
       }
-    },
 
-    getCourseById: async (id) => {
-      try {
-        const result = await useCase.getCourseById(id);
+      set({
+        courses: result.data,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({
+        isLoading: false,
+        error:
+          error instanceof Error ? error.message : "Failed to fetch courses",
+      });
+    }
+  },
 
-        if (result.error) {
-          set({ error: result.error.message });
-          return null;
-        }
+  getCourseById: async (id) => {
+    try {
+      const result = await getCourseByIdAction(id);
 
-        return result.data;
-      } catch (error) {
-        set({
-          error:
-            error instanceof Error ? error.message : "Failed to get course",
-        });
+      if (result.error) {
+        set({ error: result.error.message });
         return null;
       }
-    },
 
-    refreshCourses: async () => {
-      set({ error: null });
+      return result.data;
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : "Failed to get course",
+      });
+      return null;
+    }
+  },
 
-      try {
-        const result = await useCase.getAllCourses();
+  refreshCourses: async () => {
+    set({ error: null });
 
-        if (result.error) {
-          set({ error: result.error.message });
-          return;
-        }
+    try {
+      const result = await getAllCoursesAction();
 
-        set({ courses: result.data });
-      } catch (error) {
-        set({
-          error:
-            error instanceof Error
-              ? error.message
-              : "Failed to refresh courses",
-        });
+      if (result.error) {
+        set({ error: result.error.message });
+        return;
       }
-    },
 
-    clearError: () => {
-      set({ error: null });
-    },
+      set({ courses: result.data });
+    } catch (error) {
+      set({
+        error:
+          error instanceof Error ? error.message : "Failed to refresh courses",
+      });
+    }
+  },
 
-    reset: () => {
-      set(initialState);
-    },
-  };
-});
+  clearError: () => {
+    set({ error: null });
+  },
+
+  reset: () => {
+    set(initialState);
+  },
+}));

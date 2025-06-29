@@ -80,11 +80,6 @@ export function CoursesList() {
             >
               <div className="flex justify-between items-start mb-2">
                 <h3 className="text-lg font-semibold">{course.title}</h3>
-                {course.isRecent && (
-                  <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
-                    Recent
-                  </span>
-                )}
               </div>
 
               {course.description && (
