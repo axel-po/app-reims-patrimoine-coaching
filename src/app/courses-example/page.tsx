@@ -1,4 +1,5 @@
 import { CoursesList } from "@/userinterface/components/courses/CoursesList";
+import { ModulesListContainer } from "@/userinterface/components/modules/ModulesListContainer";
 
 export default function CoursesExamplePage() {
   return (
@@ -12,6 +13,11 @@ export default function CoursesExamplePage() {
       </div>
 
       <CoursesList />
+
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-4">Modules</h2>
+        <ModulesListContainer />
+      </div>
     </div>
   );
 }
