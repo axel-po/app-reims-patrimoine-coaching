@@ -18,35 +18,39 @@ export default function ModulesList({ courseId }: ModulesListProps) {
     }
   }, [courseId]);
 
+  // Loading state
   if (isLoading) {
     return (
-      <div className="space-y-4">
-        {[...Array(3)].map((_, i) => (
+      <div className="space-y-1">
+        {Array.from({ length: 3 }).map((_, i) => (
           <div key={i} className="animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-            <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+            <div className="h-12 bg-muted rounded-lg"></div>
           </div>
         ))}
       </div>
     );
   }
 
+  // Error state
   if (error) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-        <p className="text-red-600">Error: {error}</p>
+      <div className="p-4 text-center text-destructive">
+        <p>Erreur lors du chargement des modules</p>
+        <p className="text-sm text-muted-foreground mt-1">{error}</p>
       </div>
     );
   }
 
+  // Empty state
   if (modules.length === 0) {
     return (
-      <div className="p-4 bg-gray-50 border border-gray-200 rounded-md">
-        <p className="text-gray-600">No modules found.</p>
+      <div className="p-8 text-center text-muted-foreground">
+        <p>Aucun module disponible pour ce cours</p>
       </div>
     );
   }
 
+  // Normal state with data
   return (
     <div className="space-y-1">
       {modules.map((module) => (
