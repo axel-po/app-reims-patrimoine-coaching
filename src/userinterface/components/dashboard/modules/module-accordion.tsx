@@ -11,6 +11,7 @@ import ModuleHeader from "./module-header";
 import LessonItem from "@/app/dashboard/_components/courses/lesson-item";
 import { ModulePresentation } from "@/infrastructure/presenters/modules.presenter";
 import { useLessonsViewModel } from "@/userinterface/components/lessons/LessonsViewModel";
+import { useQueryState } from "nuqs";
 
 interface ModuleAccordionProps {
   module: ModulePresentation;
@@ -21,6 +22,7 @@ export default function ModuleAccordion({
   module,
   defaultOpen = false,
 }: ModuleAccordionProps) {
+  const [selectedLessonId] = useQueryState("lessonId");
   const {
     lessons,
     isLoading: lessonsLoading,
@@ -69,7 +71,7 @@ export default function ModuleAccordion({
                 <LessonItem
                   key={lesson.id}
                   lesson={lesson}
-                  isSelected={false}
+                  isSelected={selectedLessonId === lesson.id}
                 />
               ))
             )}

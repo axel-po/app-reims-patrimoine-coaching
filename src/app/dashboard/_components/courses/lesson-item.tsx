@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import { Circle } from "lucide-react";
 import { Lesson } from "@/domain/models/lessons.interface";
+import { useQueryState } from "nuqs";
 
 interface LessonItemProps {
   lesson: Lesson;
@@ -8,8 +11,15 @@ interface LessonItemProps {
 }
 
 export default function LessonItem({ lesson, isSelected }: LessonItemProps) {
+  const [, setLessonId] = useQueryState("lessonId");
+
+  const handleClick = () => {
+    setLessonId(lesson.id);
+  };
+
   return (
     <button
+      onClick={handleClick}
       className={`w-full text-left py-2 px-3 rounded-lg text-sm transition-all duration-200 ${
         isSelected
           ? "bg-gradient-to-r from-purple-50 to-blue-50 text-purple-700 font-medium border border-purple-200"
