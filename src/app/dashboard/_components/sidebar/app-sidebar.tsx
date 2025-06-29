@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   Sidebar,
-  SidebarContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -12,43 +11,10 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
-import { useCoursesStore } from "@/stores/courses-store";
-import { useModulesStore } from "@/stores/modules-store";
 
-import Author from "../author/author";
-import CourseInfo from "../courses/course-info";
-import ModuleAccordion from "../courses/module-accordion";
 import CourseProgress from "../courses/course-progress";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { courses, isLoading, error, fetchCourses } = useCoursesStore();
-  const {
-    modules,
-    isLoading: modulesLoading,
-    error: modulesError,
-    fetchModulesByCourseId,
-  } = useModulesStore();
-
-  // GET ALL COURSES FROM THE DATABASE
-  React.useEffect(() => {
-    fetchCourses();
-  }, [fetchCourses]);
-
-  // If later we have multiple courses, we will need to change this
-  React.useEffect(() => {
-    if (courses[0]?.id) {
-      fetchModulesByCourseId(courses[0].id);
-    }
-  }, [courses, fetchModulesByCourseId]);
-
-  // GET THE FIRST COURSE
-  const currentCourse = courses[0];
-  console.log("currentCourse", currentCourse);
-
-  if (error) {
-    return <div>Error loading courses: {error}</div>;
-  }
-
   return (
     <Sidebar
       collapsible="offcanvas"
@@ -75,18 +41,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
 
-        <CourseInfo
+        {/* <CourseInfo
           title={currentCourse?.title}
           description={currentCourse?.description || ""}
           duration={"N/A"}
-        />
+        /> */}
 
         <div className="px-3 py-3">
           <CourseProgress modules={[]} />
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="bg-white">
+      {/* <SidebarContent className="bg-white">
         <div className="px-3 py-4">
           <h3 className="text-sm font-semibold text-slate-900 mb-4">
             Course content
@@ -114,7 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
 
         <Author />
-      </SidebarContent>
+      </SidebarContent> */}
     </Sidebar>
   );
 }
