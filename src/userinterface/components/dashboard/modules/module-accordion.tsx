@@ -11,8 +11,7 @@ import ModuleHeader from "./module-header";
 import LessonItem from "@/userinterface/components/dashboard/lessons/lesson-item";
 import { ModulePresentation } from "@/infrastructure/presenters/modules.presenter";
 import { useQueryState } from "nuqs";
-import { Lesson } from "@/domain/models/lessons.interface";
-import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
+import { useModuleLessonsViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
 
 interface ModuleAccordionProps {
   module: ModulePresentation;
@@ -24,52 +23,46 @@ export default function ModuleAccordion({
   defaultOpen = false,
 }: ModuleAccordionProps) {
   const [selectedLessonId] = useQueryState("lessonId");
+  const [openValues, setOpenValues] = useState<string[]>([]);
 
-  // Local state for this module only
-  const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Use ViewModel for lessons management
+  const { lessons, isLoading, error, hasLessonWithId } =
+    useModuleLessonsViewModel(module.id);
 
-  const loadLessons = async (moduleId: string) => {
-    // Don't load if already loaded
-    if (lessons.length > 0) return;
+  // Check if the selected lesson belongs to this module
+  const hasSelectedLesson =
+    selectedLessonId && hasLessonWithId(selectedLessonId);
 
-    setIsLoading(true);
-    setError(null);
+  // Update accordion state based on selected lesson or defaultOpen
+  useEffect(() => {
+    const moduleKey = `module-${module.id}`;
 
-    try {
-      const result = await getLessonsByModuleIdAction(moduleId);
-
-      if (result.error) {
-        setError(result.error.message);
-      } else {
-        setLessons(result.data);
+    if (hasSelectedLesson) {
+      // Keep accordion open if it contains the selected lesson
+      if (!openValues.includes(moduleKey)) {
+        setOpenValues((prev) => [...prev, moduleKey]);
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error loading lessons");
-    } finally {
-      setIsLoading(false);
+    } else if (defaultOpen && !openValues.includes(moduleKey)) {
+      // Open if defaultOpen is true and not already open
+      setOpenValues((prev) => [...prev, moduleKey]);
     }
-  };
+  }, [hasSelectedLesson, defaultOpen, module.id, openValues]);
 
   const handleAccordionChange = (value: string[]) => {
-    const isOpen = value.includes(`module-${module.id}`);
-    if (isOpen) {
-      loadLessons(module.id);
-    }
-  };
+    const moduleKey = `module-${module.id}`;
 
-  // Load lessons if defaultOpen is true
-  useEffect(() => {
-    if (defaultOpen) {
-      loadLessons(module.id);
+    // If the module contains the selected lesson, prevent closing
+    if (hasSelectedLesson && !value.includes(moduleKey)) {
+      return; // Don't allow closing when it contains selected lesson
     }
-  }, [defaultOpen, module.id]);
+
+    setOpenValues(value);
+  };
 
   return (
     <Accordion
       type="multiple"
-      defaultValue={defaultOpen ? [`module-${module.id}`] : []}
+      value={openValues}
       className="w-full"
       onValueChange={handleAccordionChange}
     >

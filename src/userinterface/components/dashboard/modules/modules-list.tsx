@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import { useModulesViewModel } from "./ModulesViewModel";
 import ModuleAccordion from "./module-accordion";
+import { useQueryState } from "nuqs";
+import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
 
 interface ModulesListProps {
   courseId?: string;
@@ -11,12 +13,36 @@ interface ModulesListProps {
 export default function ModulesList({ courseId }: ModulesListProps) {
   const { modules, isLoading, error, loadModulesByCourseId } =
     useModulesViewModel();
+  const [selectedLessonId, setSelectedLessonId] = useQueryState("lessonId");
 
   useEffect(() => {
     if (courseId) {
       loadModulesByCourseId(courseId);
     }
   }, [courseId]);
+
+  // Auto-select first lesson of first module when modules are loaded
+  useEffect(() => {
+    const selectFirstLesson = async () => {
+      // Only if modules are loaded, no lesson is selected, and we have modules
+      if (!isLoading && !selectedLessonId && modules.length > 0) {
+        const firstModule = modules[0];
+
+        try {
+          const result = await getLessonsByModuleIdAction(firstModule.id);
+
+          if (!result.error && result.data.length > 0) {
+            const firstLesson = result.data[0];
+            setSelectedLessonId(firstLesson.id);
+          }
+        } catch (error) {
+          console.error("Error loading first lesson:", error);
+        }
+      }
+    };
+
+    selectFirstLesson();
+  }, [modules, isLoading, selectedLessonId, setSelectedLessonId]);
 
   // Loading state
   if (isLoading) {

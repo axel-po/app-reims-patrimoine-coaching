@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLessonsPresenter } from "@/infrastructure/presenters/lessons.presenter";
 import { Lesson } from "@/domain/models/lessons.interface";
+import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
 
 export function useLessonsViewModel() {
   const {
@@ -46,6 +47,69 @@ export function useLessonsViewModel() {
     handleRefresh,
     handleClearError,
     handleRetry,
+  };
+}
+
+// Hook specialized for module-specific lessons without affecting global state
+export function useModuleLessonsViewModel(moduleId: string) {
+  const [state, setState] = useState<{
+    lessons: Lesson[];
+    isLoading: boolean;
+    error: string | null;
+  }>({
+    lessons: [],
+    isLoading: false,
+    error: null,
+  });
+
+  const loadLessons = async () => {
+    // Don't load if already loaded
+    if (state.lessons.length > 0) return;
+
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      const result = await getLessonsByModuleIdAction(moduleId);
+
+      if (result.error) {
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          error: result.error?.message || "Unknown error",
+        }));
+      } else {
+        setState({
+          lessons: result.data || [],
+          isLoading: false,
+          error: null,
+        });
+      }
+    } catch (err) {
+      setState((prev) => ({
+        ...prev,
+        isLoading: false,
+        error: err instanceof Error ? err.message : "Error loading lessons",
+      }));
+    }
+  };
+
+  const hasLessonWithId = (lessonId: string) => {
+    return state.lessons.some((lesson) => lesson.id === lessonId);
+  };
+
+  useEffect(() => {
+    if (moduleId) {
+      loadLessons();
+    }
+  }, [moduleId]);
+
+  return {
+    ...state,
+    hasData: state.lessons.length > 0,
+    isEmpty: state.lessons.length === 0 && !state.isLoading && !state.error,
+    hasError: !!state.error,
+    loadLessons,
+    hasLessonWithId,
   };
 }
 
