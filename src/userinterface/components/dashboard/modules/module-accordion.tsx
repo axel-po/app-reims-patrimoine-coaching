@@ -7,13 +7,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ModuleHeader from "./module-header";
+import { ModulePresentation } from "@/infrastructure/presenters/modules.presenter";
 
 interface ModuleAccordionProps {
-  module: {
-    id: string;
-    title: string;
-    duration: string;
-  };
+  module: ModulePresentation;
   defaultOpen?: boolean;
 }
 
@@ -30,7 +27,10 @@ export default function ModuleAccordion({
     >
       <AccordionItem value={`module-${module.id}`} className="border-none">
         <AccordionTrigger className="hover:no-underline py-3 px-3 rounded-lg hover:bg-slate-50 text-sm font-medium text-slate-700 [&[data-state=open]]:bg-slate-50">
-          <ModuleHeader title={module.title} duration={module.duration} />
+          <ModuleHeader
+            title={module.title}
+            duration={module.duration || "N/A"}
+          />
         </AccordionTrigger>
         <AccordionContent className="pb-2">
           {/* <div className="ml-4 space-y-1">

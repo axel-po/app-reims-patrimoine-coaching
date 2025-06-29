@@ -50,14 +50,7 @@ export default function ModulesList({ courseId }: ModulesListProps) {
   return (
     <div className="space-y-1">
       {modules.map((module) => (
-        <ModuleAccordion
-          key={module.id}
-          module={{
-            id: module.id,
-            title: module.title,
-            duration: module.duration || "N/A",
-          }}
-        />
+        <ModuleAccordion key={module.id} module={module} />
       ))}
     </div>
   );
