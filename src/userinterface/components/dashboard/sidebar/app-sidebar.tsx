@@ -14,6 +14,7 @@ import logo from "@/assets/logo.png";
 import CourseInfo from "../courses/course-info";
 import Author from "@/userinterface/components/@shared/author/author";
 import ModulesList from "../modules/modules-list";
+import CourseProgress from "@/userinterface/components/dashboard/courses/course-progress";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -42,10 +43,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
 
-        {/* Course Info */}
         <CourseInfo />
 
-        <div className="px-3 py-3">{/* <CourseProgress modules={[]} /> */}</div>
+        <div className="px-3 py-3">
+          <CourseProgress modules={[]} />
+        </div>
       </SidebarHeader>
 
       <SidebarContent className="bg-white">

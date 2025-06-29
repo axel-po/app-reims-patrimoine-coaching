@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Clock, AlertCircle, RefreshCw } from "lucide-react";
-import { useCoursesViewModel } from "@/userinterface/components/courses/CoursesViewModel";
+import { useCoursesViewModel } from "@/userinterface/components/dashboard/courses/CoursesViewModel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 

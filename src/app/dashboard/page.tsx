@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useQueryState } from "nuqs";
-import { LessonDetailView } from "@/userinterface/components/dashboard/lessons/LessonDetailView";
+import { LessonDetailView } from "@/userinterface/components/dashboard/lessons/lesson-detail-view";
 
 export default function Dashboard() {
   const [selectedLessonId] = useQueryState("lessonId");

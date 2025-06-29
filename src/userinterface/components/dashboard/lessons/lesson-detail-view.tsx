@@ -1,6 +1,6 @@
 "use client";
 
-import { useLessonViewModel } from "@/userinterface/components/lessons/LessonsViewModel";
+import { useLessonViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
 
 interface LessonDetailViewProps {
   lessonId: string;

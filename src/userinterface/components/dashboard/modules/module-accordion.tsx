@@ -8,9 +8,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ModuleHeader from "./module-header";
-import LessonItem from "@/app/dashboard/_components/courses/lesson-item";
+import LessonItem from "@/userinterface/components/dashboard/lessons/lesson-item";
 import { ModulePresentation } from "@/infrastructure/presenters/modules.presenter";
-import { useLessonsViewModel } from "@/userinterface/components/lessons/LessonsViewModel";
+import { useLessonsViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
 import { useQueryState } from "nuqs";
 
 interface ModuleAccordionProps {
@@ -23,6 +23,7 @@ export default function ModuleAccordion({
   defaultOpen = false,
 }: ModuleAccordionProps) {
   const [selectedLessonId] = useQueryState("lessonId");
+
   const {
     lessons,
     isLoading: lessonsLoading,
