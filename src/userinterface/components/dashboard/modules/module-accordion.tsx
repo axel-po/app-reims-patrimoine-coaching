@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -10,8 +10,9 @@ import {
 import ModuleHeader from "./module-header";
 import LessonItem from "@/userinterface/components/dashboard/lessons/lesson-item";
 import { ModulePresentation } from "@/infrastructure/presenters/modules.presenter";
-import { useLessonsViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
 import { useQueryState } from "nuqs";
+import { Lesson } from "@/domain/models/lessons.interface";
+import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
 
 interface ModuleAccordionProps {
   module: ModulePresentation;
@@ -24,24 +25,44 @@ export default function ModuleAccordion({
 }: ModuleAccordionProps) {
   const [selectedLessonId] = useQueryState("lessonId");
 
-  const {
-    lessons,
-    isLoading: lessonsLoading,
-    error: lessonsError,
-    loadLessonsByModuleId,
-  } = useLessonsViewModel();
+  // Local state for this module only
+  const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadLessons = async (moduleId: string) => {
+    // Don't load if already loaded
+    if (lessons.length > 0) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await getLessonsByModuleIdAction(moduleId);
+
+      if (result.error) {
+        setError(result.error.message);
+      } else {
+        setLessons(result.data);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error loading lessons");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleAccordionChange = (value: string[]) => {
     const isOpen = value.includes(`module-${module.id}`);
     if (isOpen) {
-      loadLessonsByModuleId(module.id);
+      loadLessons(module.id);
     }
   };
 
   // Load lessons if defaultOpen is true
   useEffect(() => {
     if (defaultOpen) {
-      loadLessonsByModuleId(module.id);
+      loadLessons(module.id);
     }
   }, [defaultOpen, module.id]);
 
@@ -61,10 +82,10 @@ export default function ModuleAccordion({
         </AccordionTrigger>
         <AccordionContent className="pb-2">
           <div className="ml-4 space-y-1">
-            {lessonsLoading ? (
+            {isLoading ? (
               <div className="text-sm text-slate-500">Loading lessons...</div>
-            ) : lessonsError ? (
-              <div className="text-sm text-red-500">Error: {lessonsError}</div>
+            ) : error ? (
+              <div className="text-sm text-red-500">Error: {error}</div>
             ) : lessons.length === 0 ? (
               <div className="text-sm text-slate-500">No lessons found</div>
             ) : (
