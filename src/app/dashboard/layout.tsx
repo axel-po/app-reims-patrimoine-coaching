@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/userinterface/components/dashboard/nav/site-header";
+import { SiteHeader } from "@/userinterface/components/@shared/nav/site-header";
 import { AppSidebar } from "@/userinterface/components/dashboard/sidebar/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
