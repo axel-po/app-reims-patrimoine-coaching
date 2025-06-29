@@ -1,5 +1,5 @@
-import { SiteHeader } from "./_components/nav/site-header";
-import { AppSidebar } from "./_components/sidebar/app-sidebar";
+import { SiteHeader } from "@/userinterface/components/dashboard/nav/site-header";
+import { AppSidebar } from "@/userinterface/components/dashboard/sidebar/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import React from "react";
