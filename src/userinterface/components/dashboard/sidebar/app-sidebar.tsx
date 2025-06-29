@@ -12,7 +12,7 @@ import Image from "next/image";
 import logo from "@/assets/logo.png";
 
 import CourseInfo from "../courses/course-info";
-import Author from "@/app/dashboard/_components/author/author";
+import Author from "@/userinterface/components/@shared/author/author";
 import ModulesList from "../modules/modules-list";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -53,8 +53,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <h3 className="text-sm font-semibold text-slate-900 mb-4">
             Course content
           </h3>
-
-          <ModulesList courseId={"cb4fbfd3-a94e-46c4-ba57-338844f6b5b9"} />
+          <ModulesList courseId={"cb4fbfd3-a94e-46c4-ba57-338844f6b5b9"} />x
         </div>
 
         <Author />
