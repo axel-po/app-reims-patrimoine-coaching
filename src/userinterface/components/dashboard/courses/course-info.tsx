@@ -96,7 +96,6 @@ export default function CourseInfo() {
 
   const currentCourse = courses[0];
 
-  // Normal state with data
   return (
     <>
       <div className="px-3 pb-4 border-b border-slate-100">

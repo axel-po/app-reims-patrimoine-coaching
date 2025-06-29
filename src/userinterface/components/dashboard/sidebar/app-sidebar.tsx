@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
   Sidebar,
@@ -14,9 +16,13 @@ import logo from "@/assets/logo.png";
 import CourseInfo from "../courses/course-info";
 import Author from "@/userinterface/components/@shared/author/author";
 import ModulesList from "../modules/modules-list";
-import CourseProgress from "@/userinterface/components/dashboard/courses/course-progress";
+
+import { useCoursesViewModel } from "../courses/CoursesViewModel";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { courses, hasData } = useCoursesViewModel();
+  const currentCourse = hasData ? courses[0] : null;
+
   return (
     <Sidebar
       collapsible="offcanvas"
@@ -45,9 +51,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
         <CourseInfo />
 
-        <div className="px-3 py-3">
+        {/* <div className="px-3 py-3">
           <CourseProgress modules={[]} />
-        </div>
+        </div> */}
       </SidebarHeader>
 
       <SidebarContent className="bg-white">
@@ -55,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <h3 className="text-sm font-semibold text-slate-900 mb-4">
             Course content
           </h3>
-          <ModulesList courseId={"cb4fbfd3-a94e-46c4-ba57-338844f6b5b9"} />x
+          {currentCourse && <ModulesList courseId={currentCourse.id} />}
         </div>
 
         <Author />

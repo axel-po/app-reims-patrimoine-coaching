@@ -11,6 +11,123 @@ const MODULES_PER_COURSE = 6;
 const LESSONS_PER_MODULE = 4;
 const USER_PROGRESS_PERCENTAGE = 0.3; // 30% of users will have progress
 
+// Pre-defined unique lesson titles for finance/patrimoine domain
+const UNIQUE_LESSON_TITLES = [
+  "Introduction au patrimoine financier",
+  "Les différents types d'actifs",
+  "Évaluer sa situation patrimoniale",
+  "Les objectifs d'investissement",
+  "Comprendre les livrets d'épargne",
+  "Le fonctionnement des comptes à terme",
+  "Les avantages du PEL et CEL",
+  "Gérer sa trésorerie au quotidien",
+  "Les bases de l'investissement boursier",
+  "Comprendre les actions et obligations",
+  "Diversifier son portefeuille",
+  "L'analyse fondamentale",
+  "Les ETF et trackers",
+  "Investir en SCPI",
+  "Le crowdfunding immobilier",
+  "Les crypto-monnaies",
+  "L'imposition des revenus financiers",
+  "La fiscalité de l'assurance-vie",
+  "Optimiser ses impôts légalement",
+  "Les niches fiscales immobilières",
+  "Le déficit foncier",
+  "La loi Pinel et dispositifs",
+  "Comprendre l'assurance-vie",
+  "Choisir ses supports d'investissement",
+  "Les contrats multisupports",
+  "L'assurance-vie et la succession",
+  "Préparer sa retraite",
+  "Les régimes de retraite obligatoires",
+  "Le PER et l'épargne retraite",
+  "Calculer ses besoins futurs",
+  "Protéger sa famille",
+  "L'assurance décès-invalidité",
+  "Les garanties essentielles",
+  "Évaluer ses besoins de protection",
+  "Analyser les risques d'investissement",
+  "Diversifier géographiquement",
+  "Gérer la volatilité des marchés",
+  "Les stratégies défensives",
+  "Préparer sa succession",
+  "La donation et ses avantages",
+  "L'usufruit et la nue-propriété",
+  "Transmettre son patrimoine",
+  "Investir dans l'immobilier locatif",
+  "Financer un investissement immobilier",
+  "Gérer ses biens locatifs",
+  "L'immobilier commercial",
+  "Les REITs et foncières",
+  "Investir à l'étranger",
+  "Les marchés émergents",
+  "La diversification internationale",
+  "Comprendre l'inflation",
+  "Protéger son pouvoir d'achat",
+  "Les actifs tangibles",
+  "L'or et les métaux précieux",
+  "Les matières premières",
+  "Le trading pour débutants",
+  "L'analyse technique",
+  "Gérer ses émotions",
+  "Créer un plan d'investissement",
+  "Suivre ses performances",
+  "Réajuster sa stratégie",
+  "Les frais de gestion",
+  "Optimiser ses coûts",
+  "Négocier avec son banquier",
+  "Choisir ses intermédiaires",
+  "Comprendre les marchés financiers",
+  "L'économie et l'investissement",
+  "Les cycles économiques",
+  "Anticiper les crises",
+  "Construire un patrimoine durable",
+  "L'investissement responsable",
+  "L'ESG et la finance verte",
+  "Préparer l'avenir de ses enfants",
+  "Financer les études supérieures",
+  "Le crédit et l'endettement",
+  "Gérer ses dettes",
+  "Renégocier ses prêts",
+  "Optimiser sa fiscalité patrimoniale",
+  "Les holdings et sociétés civiles",
+  "Créer une SCI familiale",
+  "Gérer son entreprise et son patrimoine",
+  "Vendre ou transmettre son entreprise",
+  "Les stock-options et BSPCE",
+  "Négocier sa rémunération",
+  "Expatriation et fiscalité",
+  "Investir depuis l'étranger",
+  "Gérer un patrimoine international",
+  "Comprendre les produits dérivés",
+  "Les options et warrants",
+  "Spéculer intelligemment",
+  "Prévoir les frais de succession",
+  "Optimiser sa donation",
+  "L'assurance-vie luxembourgeoise",
+  "Les comptes offshore légaux",
+  "Gérer un patrimoine important",
+  "Les family offices",
+  "Philanthropie et mécénat",
+  "Investir dans l'art",
+  "Les vins et objets de collection",
+  "Créer des revenus passifs",
+  "L'indépendance financière",
+  "Gérer sa retraite active",
+  "Optimiser ses revenus locatifs",
+  "Les revenus fonciers",
+  "Défiscaliser intelligemment",
+  "Comprendre les marchés obligataires",
+  "Investir en obligations",
+  "Les produits monétaires",
+  "Gérer son patrimoine en couple",
+  "Le régime matrimonial",
+  "Protéger ses proches",
+  "Anticiper le divorce",
+  "Construire un patrimoine familial",
+];
+
 async function seedDatabase() {
   console.log("🌱 Starting database seeding...");
 
@@ -101,20 +218,32 @@ async function seedDatabase() {
     // Seed lessons
     console.log("📖 Seeding lessons...");
     const allLessons = [];
-    const lessonTitles = [
-      "Introduction et concepts clés",
-      "Analyse des opportunités",
-      "Stratégies pratiques",
-      "Cas concrets et exemples",
-    ];
+
+    // Shuffle the titles to ensure random distribution
+    const shuffledTitles = [...UNIQUE_LESSON_TITLES].sort(
+      () => Math.random() - 0.5
+    );
+    let titleIndex = 0;
 
     for (const moduleItem of allModules) {
       for (let i = 0; i < LESSONS_PER_MODULE; i++) {
+        // Ensure we don't run out of unique titles
+        if (titleIndex >= shuffledTitles.length) {
+          throw new Error(
+            `Not enough unique lesson titles. Need at least ${
+              allModules.length * LESSONS_PER_MODULE
+            } titles.`
+          );
+        }
+
         const lessonData = {
           id: faker.string.uuid(),
           moduleId: moduleItem.id,
-          title: lessonTitles[i % lessonTitles.length],
-          videoUrl: `https://example.com/videos/${faker.string.uuid()}.mp4`,
+          title: shuffledTitles[titleIndex],
+          videoUrl: `https://vimeo.com/${faker.number.int({
+            min: 100000000,
+            max: 999999999,
+          })}`,
           textContent: faker.datatype.boolean()
             ? faker.lorem.paragraphs(
                 faker.number.int({ min: 5, max: 12 }),
@@ -122,7 +251,9 @@ async function seedDatabase() {
               )
             : null,
           documentUrl: faker.datatype.boolean()
-            ? `https://example.com/docs/${faker.string.uuid()}.pdf`
+            ? `https://docs.google.com/document/d/${faker.string.alphanumeric(
+                44
+              )}`
             : null,
           duration: `${faker.number.int({ min: 8, max: 25 })}min`,
           position: i + 1,
@@ -130,6 +261,7 @@ async function seedDatabase() {
           createdAt: faker.date.past({ years: 1 }),
         };
         allLessons.push(lessonData);
+        titleIndex++; // Increment to ensure each title is used only once
       }
     }
     await db.insert(lessons).values(allLessons);
