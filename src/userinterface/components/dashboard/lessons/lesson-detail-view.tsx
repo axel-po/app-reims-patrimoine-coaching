@@ -1,6 +1,7 @@
 "use client";
 
 import { useLessonViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
+import { VideoPlayer } from "./video-player";
 
 interface LessonDetailViewProps {
   lessonId: string;
@@ -79,9 +80,7 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
       {lesson.videoUrl && (
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-3">Video</h2>
-          <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-            <p className="text-gray-500">Video Player: {lesson.videoUrl}</p>
-          </div>
+          <VideoPlayer videoKey={lesson.videoUrl} title={lesson.title} />
         </div>
       )}
 
