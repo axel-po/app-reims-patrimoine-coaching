@@ -17,11 +17,29 @@ export async function GET(
       );
     }
 
-    // Check referer to prevent hot-linking (optional, but recommended)
-    const referer = request.headers.get("referer");
-    const host = request.headers.get("host");
+    const { videoKey } = params;
 
-    // Allow requests from same origin or no referer (direct access from video element)
+    if (!videoKey) {
+      return NextResponse.json(
+        { error: "Video key is required" },
+        { status: 400 }
+      );
+    }
+
+    // Block direct browser access - only allow video element requests
+    const secFetchDest = request.headers.get("sec-fetch-dest");
+    const referer = request.headers.get("referer");
+
+    // Must be either a video request or have proper referer
+    if (secFetchDest !== "video" && !referer) {
+      return NextResponse.json(
+        { error: "Direct access to video streams is not allowed" },
+        { status: 403 }
+      );
+    }
+
+    // Check referer to prevent hot-linking
+    const host = request.headers.get("host");
     const allowedOrigins = [
       host ? `https://${host}` : null,
       host ? `http://${host}` : null,
@@ -35,15 +53,6 @@ export async function GET(
       return NextResponse.json(
         { error: "Access denied - Invalid referer" },
         { status: 403 }
-      );
-    }
-
-    const { videoKey } = params;
-
-    if (!videoKey) {
-      return NextResponse.json(
-        { error: "Video key is required" },
-        { status: 400 }
       );
     }
 
@@ -80,6 +89,7 @@ export async function GET(
       "X-Frame-Options": "SAMEORIGIN",
       "Referrer-Policy": "strict-origin-when-cross-origin",
       "X-Robots-Tag": "noindex, nofollow, nosnippet, noarchive",
+      "Content-Disposition": "inline",
     };
 
     // Handle partial content for video seeking
