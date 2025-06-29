@@ -1,5 +1,5 @@
 import { pgTable, serial, uuid, boolean, timestamp } from "drizzle-orm/pg-core";
-import { lessons } from "./lessons-model";
+import { lessons } from "./lessons.schema";
 
 export const userProgress = pgTable("user_progress", {
   id: serial("id").primaryKey(),

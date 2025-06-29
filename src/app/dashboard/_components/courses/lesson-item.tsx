@@ -1,23 +1,8 @@
 import React from "react";
 import { CheckCircle2, Circle } from "lucide-react";
-import { LessonModel } from "@/data/models/lessons-model";
-import { useActiveLessonStore } from "@/stores";
 
-interface LessonItemProps {
-  lesson: LessonModel;
-  isSelected: boolean;
-  onSelect: (lesson: LessonModel) => void;
-}
-
-export default function LessonItem({
-  lesson,
-  isSelected,
-  onSelect,
-}: LessonItemProps) {
-  const { setActiveLesson } = useActiveLessonStore();
-
+export default function LessonItem({ lesson, isSelected, onSelect }: any) {
   const handleSelect = () => {
-    setActiveLesson(lesson);
     onSelect(lesson);
   };
 

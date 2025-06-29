@@ -1,5 +1,9 @@
 import { faker } from "@faker-js/faker";
-import { user, courses, modules, lessons, userProgress } from "../../models";
+import { lessons } from "../schemas/lessons.schema";
+import { modules } from "../schemas/modules.schema";
+import { courses } from "../schemas/courses.schema";
+import { userProgress } from "../schemas/userProgress.schema";
+import { user } from "../schemas/user.schema";
 import initDotEnv from "./env";
 
 const COURSES_COUNT = 1; // Only create 1 course

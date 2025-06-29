@@ -6,7 +6,7 @@ import {
   timestamp,
   integer,
 } from "drizzle-orm/pg-core";
-import { courses } from "./courses-model";
+import { courses } from "./courses.schema";
 
 export const modules = pgTable("modules", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -15,8 +15,8 @@ export const modules = pgTable("modules", {
     .references(() => courses.id),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
-  position: integer("position").notNull(), // order in course
-  duration: varchar("duration", { length: 20 }), // "45min", "1h 30min"
+  position: integer("position").notNull(),
+  duration: varchar("duration", { length: 20 }),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
