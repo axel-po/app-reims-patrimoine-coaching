@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getVideoStreamUrlAction } from "@/userinterface/actions/videos.actions";
+import { getSecureVideoStreamUrlAction } from "@/userinterface/actions/videos.actions";
 
 interface VideoPlayerProps {
   videoKey: string;
@@ -30,7 +30,8 @@ export function VideoPlayer({
         setLoading(true);
         setError(null);
 
-        const result = await getVideoStreamUrlAction(videoKey);
+        // Use secure streaming endpoint - no URL expiration needed
+        const result = await getSecureVideoStreamUrlAction(videoKey);
 
         if (result.success && result.url) {
           setVideoUrl(result.url);
@@ -82,6 +83,9 @@ export function VideoPlayer({
         preload="metadata"
         className="w-full h-full object-cover"
         title={title}
+        // Prevent right-click download and other security measures
+        controlsList="nodownload"
+        onContextMenu={(e) => e.preventDefault()}
       >
         <p className="text-gray-600">
           Your browser doesn&apos;t support video playback.

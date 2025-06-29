@@ -35,4 +35,21 @@ export class VideosRepository implements VideoReader {
 
     return await getSignedUrl(this.s3Client, command, { expiresIn: 28800 });
   }
+
+  async getSignedVideoUrl(
+    videoKey: string,
+    expiresInMinutes: number
+  ): Promise<string> {
+    const command = new GetObjectCommand({
+      Bucket: this.bucketName,
+      Key: videoKey,
+    });
+
+    // Convert minutes to seconds
+    const expiresInSeconds = expiresInMinutes * 60;
+
+    return await getSignedUrl(this.s3Client, command, {
+      expiresIn: expiresInSeconds,
+    });
+  }
 }

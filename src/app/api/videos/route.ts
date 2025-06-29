@@ -1,8 +1,19 @@
 import { NextResponse } from "next/server";
 import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { getSession } from "@/lib/auth-server";
 
 export async function GET(): Promise<NextResponse> {
   try {
+    // Check if user is authenticated
+    const session = await getSession();
+
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: "Unauthorized - Please log in to access videos" },
+        { status: 401 }
+      );
+    }
+
     // Check if all required environment variables are set
     const requiredEnvVars = [
       "CLOUDFLARE_ACCOUNT_ID",
@@ -52,7 +63,7 @@ export async function GET(): Promise<NextResponse> {
         key: obj.Key,
         size: obj.Size,
         lastModified: obj.LastModified,
-        testUrl: `/api/videos/${obj.Key}`,
+        streamUrl: `/api/videos/stream/${obj.Key}`, // Use secure streaming endpoint
       })) || [];
 
     return NextResponse.json({

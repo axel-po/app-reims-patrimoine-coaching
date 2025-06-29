@@ -1,4 +1,4 @@
-import { VideoReader } from "@/domain/models/videos.interface";
+import { VideoReader } from "../models/videos.interface";
 
 export class VideosUseCase {
   constructor(private videoReader: VideoReader) {}
@@ -9,6 +9,22 @@ export class VideosUseCase {
     }
 
     return await this.videoReader.getVideoUrl(videoKey);
+  }
+
+  async getSignedVideoUrl(
+    videoKey: string,
+    expiresInMinutes: number = 60
+  ): Promise<string> {
+    if (!videoKey || videoKey.trim() === "") {
+      throw new Error("Video key is required");
+    }
+
+    // Generate signed URL that expires in specified minutes
+    const signedUrl = await this.videoReader.getSignedVideoUrl(
+      videoKey,
+      expiresInMinutes
+    );
+    return signedUrl;
   }
 
   // Helper to extract video key from full URL if needed
