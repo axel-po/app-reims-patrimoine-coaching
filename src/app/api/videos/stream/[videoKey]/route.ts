@@ -4,7 +4,7 @@ import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { videoKey: string } }
+  context: { params: Promise<{ videoKey: string }> }
 ): Promise<NextResponse> {
   try {
     // Check if user is authenticated
@@ -17,7 +17,9 @@ export async function GET(
       );
     }
 
-    const { videoKey } = params;
+    // Await params before using its properties
+    const params = await context.params;
+    const videoKey = params.videoKey;
 
     if (!videoKey) {
       return NextResponse.json(
@@ -116,11 +118,15 @@ export async function GET(
   } catch (error) {
     console.error("Video streaming error:", error);
 
+    // Await params for error reporting
+    const params = await context.params;
+    const videoKey = params.videoKey;
+
     return NextResponse.json(
       {
         success: false,
         error: error instanceof Error ? error.message : "Streaming error",
-        videoKey: params.videoKey,
+        videoKey: videoKey,
       },
       { status: 500 }
     );
