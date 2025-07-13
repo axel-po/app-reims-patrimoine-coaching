@@ -80,7 +80,7 @@ export function VideoPlayer({
       <video
         src={videoUrl}
         controls
-        preload="metadata"
+        preload="auto"
         className="w-full h-full object-cover"
         title={title}
         // Prevent right-click download and other security measures

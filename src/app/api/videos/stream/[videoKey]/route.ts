@@ -86,7 +86,7 @@ export async function GET(
     // Convert the stream to a Response with security headers
     const headers: Record<string, string> = {
       "Content-Type": response.ContentType || "video/mp4",
-      "Cache-Control": "private, no-cache, no-store, must-revalidate",
+      "Cache-Control": "private, max-age=3600, stale-while-revalidate=86400",
       "X-Content-Type-Options": "nosniff",
       "X-Frame-Options": "SAMEORIGIN",
       "Referrer-Policy": "strict-origin-when-cross-origin",

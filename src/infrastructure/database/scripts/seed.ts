@@ -236,14 +236,14 @@ async function seedDatabase() {
           );
         }
 
+        const videoFiles = ["yomi.mp4", "video-demo.mp4", "video-demo2.mp4"];
+        const randomVideoFile = faker.helpers.arrayElement(videoFiles);
+
         const lessonData = {
           id: faker.string.uuid(),
           moduleId: moduleItem.id,
           title: shuffledTitles[titleIndex],
-          videoUrl: `https://vimeo.com/${faker.number.int({
-            min: 100000000,
-            max: 999999999,
-          })}`,
+          videoUrl: randomVideoFile,
           textContent: faker.datatype.boolean()
             ? faker.lorem.paragraphs(
                 faker.number.int({ min: 5, max: 12 }),
