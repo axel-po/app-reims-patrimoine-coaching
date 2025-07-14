@@ -7,12 +7,14 @@ interface VideoPlayerProps {
   videoKey: string;
   title?: string;
   className?: string;
+  onComplete?: () => void;
 }
 
 export function VideoPlayer({
   videoKey,
   title,
   className = "",
+  onComplete,
 }: VideoPlayerProps) {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -75,6 +77,12 @@ export function VideoPlayer({
     );
   }
 
+  const handleVideoEnded = () => {
+    if (onComplete) {
+      onComplete();
+    }
+  };
+
   return (
     <div className={`aspect-video rounded-lg overflow-hidden ${className}`}>
       <video
@@ -86,6 +94,7 @@ export function VideoPlayer({
         // Prevent right-click download and other security measures
         controlsList="nodownload"
         onContextMenu={(e) => e.preventDefault()}
+        onEnded={handleVideoEnded}
       >
         <p className="text-gray-600">
           Your browser doesn&apos;t support video playback.

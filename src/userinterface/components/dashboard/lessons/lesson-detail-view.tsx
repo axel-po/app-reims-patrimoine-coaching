@@ -2,7 +2,6 @@
 
 import { useLessonViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
 import { VideoPlayer } from "./video-player";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,8 @@ import {
   HashIcon,
   CalendarIcon,
   RefreshCwIcon,
+  CheckCircleIcon,
+  GlobeIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -39,6 +40,7 @@ const stagger = {
 export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
   const { lesson, isLoading, error, loadLesson } = useLessonViewModel(lessonId);
   const [mounted, setMounted] = useState(false);
+  const [videoCompleted, setVideoCompleted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -140,130 +142,190 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
       <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
 
       <div className="relative z-10">
-        <motion.div variants={fadeIn} className="mb-8">
-          <div className="relative mb-8">
-            <div className="absolute -left-3 top-2 h-12 w-1 bg-gradient-to-b from-primary/80 to-primary/20 rounded-full"></div>
-            <div className="pl-2">
-              <h1 className="text-3xl font-bold tracking-tight mb-2">
-                {lesson.title}
-              </h1>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center">
-                  <HashIcon className="mr-1.5 h-3.5 w-3.5" />
-                  <span>Leçon {lesson.position}</span>
+        <motion.div variants={fadeIn} className="mb-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div className="relative mb-4 md:mb-0">
+              <div className="absolute -left-3 top-2 h-12 w-1 bg-gradient-to-b from-primary/80 to-primary/20 rounded-full"></div>
+              <div className="pl-2">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                  <div className="flex items-center">
+                    <GlobeIcon className="mr-1.5 h-3.5 w-3.5" />
+                    <span>
+                      Finance & Patrimoine / Investissement & Patrimoine
+                    </span>
+                  </div>
                 </div>
-                <div className="hidden md:block h-1 w-1 rounded-full bg-muted-foreground/30"></div>
-                <div className="flex items-center">
-                  <ClockIcon className="mr-1.5 h-3.5 w-3.5" />
-                  <span>{lesson.duration}</span>
-                </div>
+                <h1 className="text-2xl font-bold tracking-tight">
+                  {lesson.title}
+                </h1>
               </div>
             </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-8">
-            {lesson.videoUrl && (
+            <div className="flex items-center gap-3">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <ClockIcon className="mr-1.5 h-3.5 w-3.5" />
+                <span>{lesson.duration || "18min"}</span>
+              </div>
+              <div className="flex items-center text-sm text-muted-foreground">
+                <HashIcon className="mr-1.5 h-3.5 w-3.5" />
+                <span>
+                  {lesson.position ? `Leçon ${lesson.position}` : "Leçon 1"}
+                </span>
+              </div>
               <Badge
                 variant="secondary"
-                className="flex items-center gap-1.5 py-1.5 bg-primary/10 hover:bg-primary/15 transition-colors"
+                className="bg-amber-500/10 text-amber-500 border-amber-500/20"
               >
-                <PlayCircleIcon className="h-3.5 w-3.5" />
-                Vidéo
+                4.9 (248 avis)
               </Badge>
-            )}
-            {lesson.textContent && (
-              <Badge
-                variant="outline"
-                className="flex items-center gap-1.5 py-1.5 hover:bg-muted/50 transition-colors"
-              >
-                <FileTextIcon className="h-3.5 w-3.5" />
-                Contenu écrit
-              </Badge>
-            )}
-            {lesson.documentUrl && (
-              <Badge
-                variant="outline"
-                className="flex items-center gap-1.5 py-1.5 hover:bg-muted/50 transition-colors"
-              >
-                <FileIcon className="h-3.5 w-3.5" />
-                Document
-              </Badge>
-            )}
-          </div>
-
-          <div className="relative">
-            <Separator className="my-6" />
-            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-1 w-1 rounded-full bg-border"></div>
-            <div className="absolute left-1/4 -translate-x-1/2 top-1/2 -translate-y-1/2 h-1 w-1 rounded-full bg-border"></div>
-            <div className="absolute left-3/4 -translate-x-1/2 top-1/2 -translate-y-1/2 h-1 w-1 rounded-full bg-border"></div>
+            </div>
           </div>
         </motion.div>
 
-        {lesson.videoUrl && (
-          <motion.div variants={fadeIn} className="mb-12">
-            <div className="flex items-center mb-4">
-              <div className="mr-3 p-1.5 rounded-full bg-primary/10">
-                <PlayCircleIcon className="h-5 w-5 text-primary" />
-              </div>
-              <h2 className="text-xl font-semibold">Vidéo</h2>
-            </div>
-            <div className="rounded-xl overflow-hidden border border-border/60 shadow-sm relative">
+        <motion.div variants={fadeIn} className="mb-8">
+          {lesson.videoUrl ? (
+            <div className="rounded-xl overflow-hidden border border-border/60 shadow-sm relative bg-black">
               <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none z-10"></div>
-              <VideoPlayer videoKey={lesson.videoUrl} title={lesson.title} />
+              <VideoPlayer
+                videoKey={lesson.videoUrl}
+                title={lesson.title}
+                onComplete={() => setVideoCompleted(true)}
+              />
+              {videoCompleted && (
+                <div className="absolute bottom-4 right-4 bg-green-500 text-white rounded-full p-2 shadow-lg z-20">
+                  <CheckCircleIcon className="h-5 w-5" />
+                </div>
+              )}
             </div>
-          </motion.div>
-        )}
+          ) : (
+            <div className="rounded-xl overflow-hidden border border-border/60 shadow-sm relative bg-black h-[400px] flex items-center justify-center">
+              <div className="text-center">
+                <PlayCircleIcon className="h-16 w-16 text-muted-foreground/40 mx-auto mb-4" />
+                <p className="text-muted-foreground">Vidéo non disponible</p>
+              </div>
+            </div>
+          )}
+        </motion.div>
 
-        {lesson.textContent && (
-          <motion.div variants={fadeIn} className="mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <motion.div variants={fadeIn} className="col-span-2">
             <div className="flex items-center mb-4">
               <div className="mr-3 p-1.5 rounded-full bg-blue-500/10">
                 <FileTextIcon className="h-5 w-5 text-blue-500" />
               </div>
-              <h2 className="text-xl font-semibold">Contenu</h2>
+              <h2 className="text-xl font-semibold">Contenu du cours</h2>
             </div>
-            <div
-              className={cn(
-                "prose prose-slate dark:prose-invert max-w-none p-6 rounded-xl",
-                "",
-                "relative overflow-hidden"
+            <div className="bg-card rounded-xl p-6 border border-border/60 shadow-sm">
+              {lesson.textContent ? (
+                <div
+                  className={cn(
+                    "prose prose-slate dark:prose-invert max-w-none",
+                    "relative"
+                  )}
+                >
+                  <p className="leading-relaxed whitespace-pre-wrap">
+                    {lesson.textContent}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">
+                  Livret A, LDDS et autres livrets d&apos;épargne réglementée -
+                  contenu détaillé du cours.
+                </p>
               )}
-            >
-              <p className="leading-relaxed whitespace-pre-wrap">
-                {lesson.textContent}
-              </p>
             </div>
           </motion.div>
-        )}
 
-        {lesson.documentUrl && (
-          <motion.div variants={fadeIn} className="mb-12">
+          <motion.div variants={fadeIn} className="col-span-1">
             <div className="flex items-center mb-4">
               <div className="mr-3 p-1.5 rounded-full bg-amber-500/10">
                 <FileIcon className="h-5 w-5 text-amber-500" />
               </div>
-              <h2 className="text-xl font-semibold">Document</h2>
+              <h2 className="text-xl font-semibold">Ressources</h2>
             </div>
-            <Button
-              asChild
-              variant="outline"
-              className="group relative overflow-hidden"
-            >
-              <a
-                href={lesson.documentUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                <span className="relative z-10 flex items-center">
-                  <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
-                  Ouvrir le document
-                </span>
-              </a>
-            </Button>
+            <div className="bg-card rounded-xl p-6 border border-border/60 shadow-sm">
+              {lesson.documentUrl ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full group relative overflow-hidden"
+                >
+                  <a
+                    href={lesson.documentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    <span className="relative z-10 flex items-center">
+                      <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
+                      epargne-precaution-bases.mp4
+                    </span>
+                    <span className="text-xs text-muted-foreground">8 min</span>
+                  </a>
+                </Button>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <Button
+                    variant="outline"
+                    className="w-full group relative overflow-hidden"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    <span className="relative z-10 flex items-center justify-between w-full">
+                      <div className="flex items-center">
+                        <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
+                        epargne-precaution-bases.mp4
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        8 min
+                      </span>
+                    </span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full group relative overflow-hidden"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    <span className="relative z-10 flex items-center justify-between w-full">
+                      <div className="flex items-center">
+                        <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
+                        livrets-reglementés.pdf
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        12 min
+                      </span>
+                    </span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full group relative overflow-hidden"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    <span className="relative z-10 flex items-center justify-between w-full">
+                      <div className="flex items-center">
+                        <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
+                        fiscalité-livrets.pdf
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        10 min
+                      </span>
+                    </span>
+                  </Button>
+                </div>
+              )}
+
+              <div className="mt-6">
+                <Button
+                  variant="default"
+                  className="w-full bg-green-600 hover:bg-green-700"
+                  onClick={() => setVideoCompleted(true)}
+                >
+                  <CheckCircleIcon className="mr-2 h-4 w-4" />
+                  Marquer comme terminé
+                </Button>
+              </div>
+            </div>
           </motion.div>
-        )}
+        </div>
 
         {lesson.createdAt && (
           <motion.div
