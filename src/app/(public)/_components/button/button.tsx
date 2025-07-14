@@ -46,7 +46,7 @@ export const Button = ({
     primary: "relative group",
     secondary: "relative group",
     outline:
-      "relative group border-2 border-gray-300 text-gray-700 hover:border-indigo-300 transition-colors",
+      "relative border-2 border-gray-300 text-gray-700",
   };
 
   // Inner content classes based on variant
@@ -121,20 +121,6 @@ export const Button = ({
             )}
           >
             {content}
-            <div className="absolute top-0 right-0 bg-indigo-100 w-16 h-16 rounded-full -mt-2 -mr-2 transform scale-0 group-hover:scale-100 transition-transform origin-center"></div>
-            <svg
-              className="absolute top-4 right-8 w-5 h-5 text-indigo-500 transform rotate-45 opacity-0 group-hover:opacity-100 transition-opacity"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7l4-4m0 0l4 4m-4-4v18"
-              />
-            </svg>
           </div>
         ) : (
           <div className={clsx(contentClasses[variant], sizeClasses[size])}>
@@ -169,20 +155,6 @@ export const Button = ({
           )}
         >
           {content}
-          <div className="absolute top-0 right-0 bg-indigo-100 w-16 h-16 rounded-full -mt-2 -mr-2 transform scale-0 group-hover:scale-100 transition-transform origin-center"></div>
-          <svg
-            className="absolute top-4 right-8 w-5 h-5 text-indigo-500 transform rotate-45 opacity-0 group-hover:opacity-100 transition-opacity"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 7l4-4m0 0l4 4m-4-4v18"
-            />
-          </svg>
         </div>
       ) : (
         <div className={clsx(contentClasses[variant], sizeClasses[size])}>

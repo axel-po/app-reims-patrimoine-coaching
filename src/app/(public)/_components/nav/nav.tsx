@@ -52,9 +52,9 @@ export default function Nav() {
         }`}
       >
         <div
-          className={`absolute inset-0 backdrop-blur-md border border-white/20 rounded-full transition-colors duration-300 ${
-            scrolled ? "bg-white" : "bg-white"
-          }`}
+          className={`absolute inset-0 backdrop-blur-xl border border-white/30 rounded-full transition-all duration-300 ${
+            scrolled ? "bg-white/20 shadow-lg shadow-black/10" : "bg-white/10"
+          } before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-white/20 before:to-white/10 before:backdrop-blur-xl`}
         ></div>
 
         <div className="flex items-center justify-between relative z-10 h-16 px-6 max-w-7xl mx-auto">
@@ -147,7 +147,7 @@ export default function Nav() {
       </div>
 
       <div
-        className={`absolute top-full left-0 right-0 mx-4 mt-2 max-w-6xl bg-white shadow-md border border-white/10 rounded-2xl transition-all duration-300 overflow-hidden z-50 ${
+        className={`absolute top-full left-0 right-0 mx-4 mt-2 max-w-6xl bg-white/20 backdrop-blur-xl shadow-lg shadow-black/10 border border-white/30 rounded-2xl transition-all duration-300 overflow-hidden z-50 ${
           menuOpen
             ? "max-h-[400px] opacity-100 translate-y-0"
             : "max-h-0 opacity-0 -translate-y-4"
