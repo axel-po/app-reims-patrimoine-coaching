@@ -25,7 +25,6 @@ import {
   getUserProgressByUserAndLessonAction,
 } from "@/userinterface/actions/userProgress.actions";
 import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
-import { ConfettiComponent } from "@/userinterface/components/ui/confetti";
 import { useQueryState } from "nuqs";
 import { Lesson } from "@/domain/models/lessons.interface";
 
@@ -53,7 +52,6 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
   const [videoCompleted, setVideoCompleted] = useState(false);
   const [lessonCompleted, setLessonCompleted] = useState(false);
   const [isMarkingComplete, setIsMarkingComplete] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
 
   // Simple navigation using module lessons
   const [nextLessonId, setNextLessonId] = useState<string | null>(null);
@@ -149,9 +147,6 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
         setLessonCompleted(true);
         setVideoCompleted(true);
 
-        // Déclencher les confettis
-        setShowConfetti(true);
-
         // Dispatch custom event to notify other components
         window.dispatchEvent(
           new CustomEvent("lessonCompleted", {
@@ -159,12 +154,10 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
           })
         );
 
-        // Passer à la leçon suivante après un délai
-        setTimeout(() => {
-          if (nextLessonId) {
-            goToNextLesson();
-          }
-        }, 2000);
+        // Passer à la leçon suivante immédiatement
+        if (nextLessonId) {
+          goToNextLesson();
+        }
       } else {
         console.error("Error marking lesson as completed:", result.error);
       }
@@ -501,12 +494,6 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
         )}
       </div>
 
-      {/* Confetti Component */}
-      <ConfettiComponent
-        active={showConfetti}
-        duration={3000}
-        onComplete={() => setShowConfetti(false)}
-      />
     </motion.div>
   );
 }
