@@ -13,14 +13,7 @@ interface CourseProgressProps {
   className?: string;
 }
 
-export default function CourseProgress({
-  modules,
-  className = "",
-}: CourseProgressProps) {
-  const totalLessons = modules.reduce(
-    (total, module) => total + module.lessons.length,
-    0
-  );
+export default function CourseProgress({}: CourseProgressProps) {
 
   // const completedLessons = modules.reduce(
   //   (total, module) =>

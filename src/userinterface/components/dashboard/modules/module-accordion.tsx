@@ -12,6 +12,7 @@ import LessonItem from "@/userinterface/components/dashboard/lessons/lesson-item
 import { ModulePresentation } from "@/infrastructure/presenters/modules.presenter";
 import { useQueryState } from "nuqs";
 import { useModuleLessonsViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
+import { getUserCompletedLessonsAction } from "@/userinterface/actions/userProgress.actions";
 
 interface ModuleAccordionProps {
   module: ModulePresentation;
@@ -24,10 +25,28 @@ export default function ModuleAccordion({
 }: ModuleAccordionProps) {
   const [selectedLessonId] = useQueryState("lessonId");
   const [openValues, setOpenValues] = useState<string[]>([]);
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
 
   // Use ViewModel for lessons management
   const { lessons, isLoading, error, hasLessonWithId } =
     useModuleLessonsViewModel(module.id);
+
+  // Load completed lessons
+  useEffect(() => {
+    const loadCompletedLessons = async () => {
+      try {
+        const result = await getUserCompletedLessonsAction();
+        if (result.data) {
+          const completedIds = new Set(result.data.map(progress => progress.lessonId));
+          setCompletedLessons(completedIds);
+        }
+      } catch (error) {
+        console.error("Error loading completed lessons:", error);
+      }
+    };
+
+    loadCompletedLessons();
+  }, []);
 
   // Check if the selected lesson belongs to this module
   const hasSelectedLesson =
@@ -87,6 +106,7 @@ export default function ModuleAccordion({
                   key={lesson.id}
                   lesson={lesson}
                   isSelected={selectedLessonId === lesson.id}
+                  isCompleted={completedLessons.has(lesson.id)}
                 />
               ))
             )}

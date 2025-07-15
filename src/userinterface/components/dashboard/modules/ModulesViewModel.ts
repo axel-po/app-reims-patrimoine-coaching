@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ModulePresentation } from "@/infrastructure/presenters/modules.presenter";
 import {
   getAllModulesAction,
@@ -19,7 +19,7 @@ export function useModulesViewModel() {
     error: null,
   });
 
-  const loadAllModules = async () => {
+  const loadAllModules = useCallback(async () => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
@@ -37,9 +37,9 @@ export function useModulesViewModel() {
         error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
-  };
+  }, []);
 
-  const loadModulesByCourseId = async (courseId: string) => {
+  const loadModulesByCourseId = useCallback(async (courseId: string) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
@@ -57,7 +57,7 @@ export function useModulesViewModel() {
         error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
-  };
+  }, []);
 
   return {
     ...state,
@@ -77,7 +77,7 @@ export function useModuleViewModel(moduleId: string | null) {
     error: null,
   });
 
-  const loadModule = async (id: string) => {
+  const loadModule = useCallback(async (id: string) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
@@ -95,13 +95,13 @@ export function useModuleViewModel(moduleId: string | null) {
         error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (moduleId) {
       loadModule(moduleId);
     }
-  }, [moduleId]);
+  }, [moduleId, loadModule]);
 
   return {
     ...state,
