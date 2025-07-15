@@ -25,7 +25,9 @@ export default function ModuleAccordion({
 }: ModuleAccordionProps) {
   const [selectedLessonId] = useQueryState("lessonId");
   const [openValues, setOpenValues] = useState<string[]>([]);
-  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(
+    new Set()
+  );
 
   // Use ViewModel for lessons management
   const { lessons, isLoading, error, hasLessonWithId } =
@@ -37,7 +39,9 @@ export default function ModuleAccordion({
       try {
         const result = await getUserCompletedLessonsAction();
         if (result.data) {
-          const completedIds = new Set(result.data.map(progress => progress.lessonId));
+          const completedIds = new Set(
+            result.data.map((progress) => progress.lessonId)
+          );
           setCompletedLessons(completedIds);
         }
       } catch (error) {
@@ -46,6 +50,24 @@ export default function ModuleAccordion({
     };
 
     loadCompletedLessons();
+
+    // Listen for lesson completion events
+    const handleLessonCompleted = (event: CustomEvent) => {
+      const { lessonId } = event.detail;
+      setCompletedLessons((prev) => new Set([...prev, lessonId]));
+    };
+
+    window.addEventListener(
+      "lessonCompleted",
+      handleLessonCompleted as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "lessonCompleted",
+        handleLessonCompleted as EventListener
+      );
+    };
   }, []);
 
   // Check if the selected lesson belongs to this module

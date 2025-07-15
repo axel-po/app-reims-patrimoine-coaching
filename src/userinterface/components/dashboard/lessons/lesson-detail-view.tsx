@@ -20,7 +20,10 @@ import {
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
-import { markLessonAsCompletedAction, getUserProgressByUserAndLessonAction } from "@/userinterface/actions/userProgress.actions";
+import {
+  markLessonAsCompletedAction,
+  getUserProgressByUserAndLessonAction,
+} from "@/userinterface/actions/userProgress.actions";
 import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
 import { ConfettiComponent } from "@/userinterface/components/ui/confetti";
 import { useQueryState } from "nuqs";
@@ -51,14 +54,16 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
   const [lessonCompleted, setLessonCompleted] = useState(false);
   const [isMarkingComplete, setIsMarkingComplete] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  
+
   // Simple navigation using module lessons
   const [nextLessonId, setNextLessonId] = useState<string | null>(null);
   const [previousLessonId, setPreviousLessonId] = useState<string | null>(null);
   const [, setLessonId] = useQueryState("lessonId");
-  
+
   // Get lessons for the current module only (simpler approach)
-  const [currentModuleLessons, setCurrentModuleLessons] = useState<Lesson[]>([]);
+  const [currentModuleLessons, setCurrentModuleLessons] = useState<Lesson[]>(
+    []
+  );
 
   const loadUserProgress = useCallback(async () => {
     try {
@@ -77,6 +82,8 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
 
   useEffect(() => {
     if (lessonId) {
+      setLessonCompleted(false);
+      setVideoCompleted(false);
       loadUserProgress();
     }
   }, [lessonId, loadUserProgress]);
@@ -88,7 +95,9 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
         try {
           const result = await getLessonsByModuleIdAction(lesson.moduleId);
           if (result.data) {
-            const lessons = result.data.sort((a, b) => (a.position || 0) - (b.position || 0));
+            const lessons = result.data.sort(
+              (a, b) => (a.position || 0) - (b.position || 0)
+            );
             setCurrentModuleLessons(lessons);
           }
         } catch (error) {
@@ -103,10 +112,18 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
   // Calculate navigation when lessons or current lesson changes
   useEffect(() => {
     if (currentModuleLessons.length > 0 && lessonId) {
-      const currentIndex = currentModuleLessons.findIndex(l => l.id === lessonId);
+      const currentIndex = currentModuleLessons.findIndex(
+        (l) => l.id === lessonId
+      );
       if (currentIndex !== -1) {
-        setPreviousLessonId(currentIndex > 0 ? currentModuleLessons[currentIndex - 1].id : null);
-        setNextLessonId(currentIndex < currentModuleLessons.length - 1 ? currentModuleLessons[currentIndex + 1].id : null);
+        setPreviousLessonId(
+          currentIndex > 0 ? currentModuleLessons[currentIndex - 1].id : null
+        );
+        setNextLessonId(
+          currentIndex < currentModuleLessons.length - 1
+            ? currentModuleLessons[currentIndex + 1].id
+            : null
+        );
       }
     }
   }, [currentModuleLessons, lessonId]);
@@ -131,10 +148,17 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
       if (result.data && !result.error) {
         setLessonCompleted(true);
         setVideoCompleted(true);
-        
+
         // Déclencher les confettis
         setShowConfetti(true);
-        
+
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(
+          new CustomEvent("lessonCompleted", {
+            detail: { lessonId },
+          })
+        );
+
         // Passer à la leçon suivante après un délai
         setTimeout(() => {
           if (nextLessonId) {
@@ -423,20 +447,19 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
                   variant="default"
                   className={cn(
                     "w-full",
-                    lessonCompleted 
-                      ? "bg-green-600 hover:bg-green-700" 
+                    lessonCompleted
+                      ? "bg-green-600 hover:bg-green-700"
                       : "bg-green-600 hover:bg-green-700"
                   )}
                   onClick={handleMarkAsCompleted}
                   disabled={isMarkingComplete || lessonCompleted}
                 >
                   <CheckCircleIcon className="mr-2 h-4 w-4" />
-                  {isMarkingComplete 
-                    ? "Marquage en cours..." 
-                    : lessonCompleted 
-                      ? "Leçon terminée" 
-                      : "Marquer comme terminé"
-                  }
+                  {isMarkingComplete
+                    ? "Marquage en cours..."
+                    : lessonCompleted
+                    ? "Leçon terminée"
+                    : "Marquer comme terminé"}
                 </Button>
 
                 {/* Navigation buttons */}
@@ -479,8 +502,8 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
       </div>
 
       {/* Confetti Component */}
-      <ConfettiComponent 
-        active={showConfetti} 
+      <ConfettiComponent
+        active={showConfetti}
         duration={3000}
         onComplete={() => setShowConfetti(false)}
       />
