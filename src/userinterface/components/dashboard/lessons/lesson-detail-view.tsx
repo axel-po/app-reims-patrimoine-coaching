@@ -15,8 +15,6 @@ import {
   GlobeIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  StarIcon,
-  UsersIcon,
   DownloadIcon,
   InfinityIcon,
   FileTextIcon,
@@ -289,9 +287,9 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
             <div className="flex-1">
               <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                 <GlobeIcon className="w-4 h-4" />
-                <span>Finance & Patrimoine</span>
+                <span>Cours de patrimoine</span>
                 <span className="text-gray-400">•</span>
-                <span>Investissement & Patrimoine</span>
+                <span>Leçon {lesson.position || 1}</span>
               </div>
               <h1 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
                 {lesson.title}
@@ -305,23 +303,18 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
                   <HashIcon className="w-4 h-4" />
                   <span>Leçon {lesson.position || 1}</span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <StarIcon className="w-4 h-4 text-yellow-500" />
-                  <span className="font-medium">4.9</span>
-                  <span className="text-gray-500 hidden sm:inline">
-                    (248 avis)
-                  </span>
-                </div>
               </div>
             </div>
             <div className="flex items-center gap-3 flex-wrap">
-              <Badge
-                variant="secondary"
-                className="bg-green-100 text-green-700 border-green-200 px-3 py-1"
-              >
-                <CheckCircleIcon className="w-3 h-3 mr-1" />
-                Bestseller
-              </Badge>
+              {lessonCompleted && (
+                <Badge
+                  variant="secondary"
+                  className="bg-green-100 text-green-700 border-green-200 px-3 py-1"
+                >
+                  <CheckCircleIcon className="w-3 h-3 mr-1" />
+                  Terminée
+                </Badge>
+              )}
               {/* Navigation buttons */}
               <div className="flex items-center gap-2">
                 <Button
@@ -396,48 +389,27 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
                     {lesson.textContent}
                   </div>
                 ) : (
-                  <div className="text-gray-700 leading-relaxed text-sm">
-                    <p className="mb-3">
-                      Cette leçon vous permettra de maîtriser les fondamentaux
-                      de l&apos;épargne de précaution et de comprendre les
-                      différents livrets d&apos;épargne réglementée disponibles.
-                    </p>
-                    <p className="mb-3">
-                      Nous détaillerons les caractéristiques du Livret A, LDDS,
-                      et autres produits d&apos;épargne réglementée, leurs
-                      conditions d&apos;accès et leurs avantages fiscaux.
-                    </p>
-                    <p>
-                      Vous apprendrez également les meilleures stratégies pour
-                      optimiser votre épargne et construire une réserve de
-                      précaution adaptée à votre situation.
-                    </p>
+                  <div className="text-gray-500 italic text-sm">
+                    <p>Aucun contenu écrit disponible pour cette leçon.</p>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* What You'll Learn */}
-            <div className="p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                Objectifs d&apos;apprentissage
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {[
-                  "Maîtriser le fonctionnement du Livret A et LDDS",
-                  "Comprendre les plafonds et taux d'intérêt",
-                  "Optimiser votre épargne de précaution",
-                  "Connaître les avantages fiscaux",
-                  "Choisir le bon produit d'épargne",
-                  "Éviter les erreurs courantes",
-                ].map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">{item}</span>
-                  </div>
-                ))}
+            {/* Learning Objectives - Only show if textContent exists */}
+            {lesson.textContent && (
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  Objectifs d&apos;apprentissage
+                </h3>
+                <div className="text-gray-500 italic text-sm">
+                  <p>
+                    Les objectifs d&apos;apprentissage spécifiques seront
+                    définis dans le contenu de la leçon.
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
 
           {/* Right Column - Sidebar */}
@@ -461,7 +433,15 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Format</span>
-                    <span className="font-medium">Vidéo + PDF</span>
+                    <span className="font-medium">
+                      {lesson.videoUrl && lesson.documentUrl
+                        ? "Vidéo + Document"
+                        : lesson.videoUrl
+                        ? "Vidéo"
+                        : lesson.documentUrl
+                        ? "Document"
+                        : "Contenu écrit"}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Accès</span>
@@ -508,7 +488,12 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
                 </div>
                 <div className="space-y-2">
                   {lesson.documentUrl ? (
-                    <div className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
+                    <a
+                      href={lesson.documentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+                    >
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                           <FileIcon className="w-4 h-4 text-blue-600" />
@@ -517,46 +502,17 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
                           <p className="font-medium text-gray-900 text-sm">
                             Support de cours
                           </p>
-                          <p className="text-xs text-gray-500">PDF • 2.1 MB</p>
+                          <p className="text-xs text-gray-500">Document</p>
                         </div>
                       </div>
                       <DownloadIcon className="w-4 h-4 text-gray-400" />
-                    </div>
+                    </a>
                   ) : (
-                    <>
-                      <div className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <FileIcon className="w-4 h-4 text-blue-600" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-gray-900 text-sm">
-                              Guide épargne réglementée
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              PDF • 1.8 MB
-                            </p>
-                          </div>
-                        </div>
-                        <DownloadIcon className="w-4 h-4 text-gray-400" />
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                            <FileIcon className="w-4 h-4 text-green-600" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-gray-900 text-sm">
-                              Tableau comparatif livrets
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              Excel • 0.9 MB
-                            </p>
-                          </div>
-                        </div>
-                        <DownloadIcon className="w-4 h-4 text-gray-400" />
-                      </div>
-                    </>
+                    <div className="p-3 bg-gray-50 rounded-lg text-center">
+                      <p className="text-gray-500 text-sm">
+                        Aucun document disponible pour cette leçon.
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -568,25 +524,15 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
                 </h3>
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                    EP
+                    RP
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900">
-                      Expert Patrimoine
+                      Reims Patrimoine
                     </h4>
                     <p className="text-sm text-gray-600">
-                      Conseiller en gestion de patrimoine
+                      Coaching patrimonial à Reims
                     </p>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <StarIcon className="w-3 h-3" />
-                        <span>4.8</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <UsersIcon className="w-3 h-3" />
-                        <span>3,247</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
