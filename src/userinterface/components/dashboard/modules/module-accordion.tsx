@@ -13,6 +13,9 @@ import { ModulePresentation } from "@/infrastructure/presenters/modules.presente
 import { useQueryState } from "nuqs";
 import { useModuleLessonsViewModel } from "@/userinterface/components/dashboard/lessons/LessonsViewModel";
 import { getUserCompletedLessonsAction } from "@/userinterface/actions/userProgress.actions";
+import { getModuleAccessInfoAction } from "@/userinterface/actions/modules.actions";
+import { useAuth } from "@/lib/auth/useAuth";
+import { ModuleAccessInfo } from "@/domain/usecases/moduleAccess.useCase";
 
 interface ModuleAccordionProps {
   module: ModulePresentation;
@@ -28,15 +31,20 @@ export default function ModuleAccordion({
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(
     new Set()
   );
+  const [moduleAccess, setModuleAccess] = useState<ModuleAccessInfo | null>(null);
+  const { user } = useAuth();
 
   // Use ViewModel for lessons management
   const { lessons, isLoading, error, hasLessonWithId } =
     useModuleLessonsViewModel(module.id);
 
-  // Load completed lessons
+  // Load completed lessons and module access
   useEffect(() => {
-    const loadCompletedLessons = async () => {
+    const loadData = async () => {
+      if (!user?.id) return;
+
       try {
+        // Load completed lessons
         const result = await getUserCompletedLessonsAction();
         if (result.data) {
           const completedIds = new Set(
@@ -44,17 +52,31 @@ export default function ModuleAccordion({
           );
           setCompletedLessons(completedIds);
         }
+
+        // Load module access info
+        const accessResult = await getModuleAccessInfoAction(user.id, module.id);
+        if (accessResult.data) {
+          setModuleAccess(accessResult.data);
+        }
       } catch (error) {
-        console.error("Error loading completed lessons:", error);
+        console.error("Error loading data:", error);
       }
     };
 
-    loadCompletedLessons();
+    loadData();
 
     // Listen for lesson completion events
-    const handleLessonCompleted = (event: CustomEvent) => {
+    const handleLessonCompleted = async (event: CustomEvent) => {
       const { lessonId } = event.detail;
       setCompletedLessons((prev) => new Set([...prev, lessonId]));
+      
+      // Refresh module access info after lesson completion
+      if (user?.id) {
+        const accessResult = await getModuleAccessInfoAction(user.id, module.id);
+        if (accessResult.data) {
+          setModuleAccess(accessResult.data);
+        }
+      }
     };
 
     window.addEventListener(
@@ -68,7 +90,7 @@ export default function ModuleAccordion({
         handleLessonCompleted as EventListener
       );
     };
-  }, []);
+  }, [user?.id, module.id]);
 
   // Check if the selected lesson belongs to this module
   const hasSelectedLesson =
@@ -123,14 +145,18 @@ export default function ModuleAccordion({
             ) : lessons.length === 0 ? (
               <div className="text-sm text-slate-500">No lessons found</div>
             ) : (
-              lessons.map((lesson) => (
-                <LessonItem
-                  key={lesson.id}
-                  lesson={lesson}
-                  isSelected={selectedLessonId === lesson.id}
-                  isCompleted={completedLessons.has(lesson.id)}
-                />
-              ))
+              lessons.map((lesson) => {
+                const isUnlocked = moduleAccess?.unlockedLessons.includes(lesson.id) ?? false;
+                return (
+                  <LessonItem
+                    key={lesson.id}
+                    lesson={lesson}
+                    isSelected={selectedLessonId === lesson.id}
+                    isCompleted={completedLessons.has(lesson.id)}
+                    isLocked={!isUnlocked}
+                  />
+                );
+              })
             )}
           </div>
         </AccordionContent>

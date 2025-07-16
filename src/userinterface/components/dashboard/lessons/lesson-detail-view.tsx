@@ -19,6 +19,7 @@ import {
   InfinityIcon,
   FileTextIcon,
   FolderIcon,
+  Lock,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
@@ -29,6 +30,8 @@ import {
 import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
 import { useQueryState } from "nuqs";
 import { Lesson } from "@/domain/models/lessons.interface";
+import { checkLessonAccessAction } from "@/userinterface/actions/modules.actions";
+import { useAuth } from "@/lib/auth/useAuth";
 
 interface LessonDetailViewProps {
   lessonId: string;
@@ -60,6 +63,8 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
   const [videoCompleted, setVideoCompleted] = useState(false);
   const [lessonCompleted, setLessonCompleted] = useState(false);
   const [isMarkingComplete, setIsMarkingComplete] = useState(false);
+  const [isLessonLocked, setIsLessonLocked] = useState(false);
+  const { user } = useAuth();
 
   // Simple navigation using module lessons
   const [nextLessonId, setNextLessonId] = useState<string | null>(null);
@@ -86,13 +91,32 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
     setMounted(true);
   }, []);
 
+  // Check if lesson is locked
+  const checkLessonAccess = useCallback(async () => {
+    if (!user?.id || !lessonId) return;
+    
+    try {
+      const { isUnlocked, error } = await checkLessonAccessAction(user.id, lessonId);
+      if (error) {
+        console.error("Error checking lesson access:", error);
+        setIsLessonLocked(true); // Default to locked on error
+      } else {
+        setIsLessonLocked(!isUnlocked);
+      }
+    } catch (error) {
+      console.error("Error checking lesson access:", error);
+      setIsLessonLocked(true); // Default to locked on error
+    }
+  }, [user?.id, lessonId]);
+
   useEffect(() => {
     if (lessonId) {
       setLessonCompleted(false);
       setVideoCompleted(false);
       loadUserProgress();
+      checkLessonAccess();
     }
-  }, [lessonId, loadUserProgress]);
+  }, [lessonId, loadUserProgress, checkLessonAccess]);
 
   // Load lessons for current module and calculate navigation
   useEffect(() => {
@@ -265,6 +289,34 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
             <p className="text-gray-600">
               Cette leçon n&apos;existe pas ou a été supprimée.
             </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show locked lesson message
+  if (isLessonLocked) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-xl p-6 shadow-sm max-w-md w-full mx-4">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Lock className="w-8 h-8 text-orange-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Leçon verrouillée
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Vous devez terminer les leçons précédentes pour accéder à cette leçon.
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => setLessonId(null)}
+              className="w-full"
+            >
+              Retour aux leçons
+            </Button>
           </div>
         </div>
       </div>
