@@ -15,13 +15,13 @@ export async function checkUserSubscription(userId: string) {
 
   const currentUser = userData[0];
 
-  // For one-time payment, user has access if they have paid (no expiration)
+  // Pour un paiement unique, l'utilisateur a accès s'il a payé (pas d'expiration)
   const hasActiveSubscription = currentUser.subscriptionStatus === "paid";
 
   return {
     hasActiveSubscription,
     user: currentUser,
     subscriptionStatus: currentUser.subscriptionStatus,
-    expiresAt: null, // No expiration for one-time payment
+    expiresAt: null, // Pas d'expiration pour un paiement unique
   };
 }
