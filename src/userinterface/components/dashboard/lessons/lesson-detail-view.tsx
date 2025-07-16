@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   FileIcon,
   PlayCircleIcon,
-  FileTextIcon,
   ClockIcon,
   HashIcon,
   CalendarIcon,
@@ -16,8 +15,13 @@ import {
   GlobeIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  StarIcon,
+  UsersIcon,
+  DownloadIcon,
+  InfinityIcon,
+  FileTextIcon,
+  FolderIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
 import {
@@ -35,7 +39,13 @@ interface LessonDetailViewProps {
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.4 },
+  transition: { duration: 0.5 },
+};
+
+const slideIn = {
+  initial: { opacity: 0, x: -20 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.6 },
 };
 
 const stagger = {
@@ -154,7 +164,7 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
           })
         );
 
-        // Passer à la leçon suivante immédiatement
+        // Move to next lesson immediately
         if (nextLessonId) {
           goToNextLesson();
         }
@@ -170,22 +180,50 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
 
   if (isLoading) {
     return (
-      <div className="relative p-8 overflow-hidden rounded-2xl border border-border/40">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90 backdrop-blur-sm z-0"></div>
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
-        <div className="relative z-10">
-          <div className="animate-pulse space-y-6">
-            <div className="h-8 bg-muted rounded-md w-3/5"></div>
-            <div className="flex gap-2">
-              <div className="h-6 bg-muted rounded-full w-24"></div>
-              <div className="h-6 bg-muted rounded-full w-28"></div>
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-5xl mx-auto py-4">
+          <div className="animate-pulse">
+            {/* Header skeleton */}
+            <div className="p-4 mb-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-3">
+                  <div className="h-4 bg-gray-200 rounded w-64"></div>
+                  <div className="h-8 bg-gray-200 rounded w-96"></div>
+                </div>
+                <div className="flex gap-2">
+                  <div className="h-6 bg-gray-200 rounded-full w-20"></div>
+                  <div className="h-6 bg-gray-200 rounded-full w-24"></div>
+                </div>
+              </div>
             </div>
-            <div className="h-72 bg-muted rounded-lg"></div>
-            <div className="space-y-2">
-              <div className="h-6 bg-muted rounded-md w-1/4"></div>
-              <div className="h-4 bg-muted rounded-md w-full"></div>
-              <div className="h-4 bg-muted rounded-md w-5/6"></div>
-              <div className="h-4 bg-muted rounded-md w-4/5"></div>
+
+            {/* Video skeleton */}
+            <div className="p-4 mb-4">
+              <div className="aspect-video bg-gray-200 rounded-lg"></div>
+            </div>
+
+            {/* Content skeleton */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="lg:col-span-2">
+                <div className="p-4">
+                  <div className="h-6 bg-gray-200 rounded w-32 mb-4"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-200 rounded w-4/5"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="lg:col-span-1">
+                <div className="p-4">
+                  <div className="h-6 bg-gray-200 rounded w-24 mb-4"></div>
+                  <div className="space-y-3">
+                    <div className="h-10 bg-gray-200 rounded"></div>
+                    <div className="h-10 bg-gray-200 rounded"></div>
+                    <div className="h-10 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -195,33 +233,20 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
 
   if (error) {
     return (
-      <div className="relative p-8 overflow-hidden rounded-2xl border border-border/40">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90 backdrop-blur-sm z-0"></div>
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
-        <div className="relative z-10">
-          <div className="p-6 bg-destructive/5 border border-destructive/20 rounded-xl">
-            <div className="flex items-start">
-              <div className="p-2 rounded-full bg-destructive/10 mr-4">
-                <RefreshCwIcon className="h-5 w-5 text-destructive" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-foreground mb-2">
-                  Impossible de charger la leçon
-                </h3>
-                <p className="text-muted-foreground mb-4">{error}</p>
-                <Button
-                  onClick={() => loadLesson(lessonId)}
-                  variant="outline"
-                  className="group relative overflow-hidden"
-                >
-                  <span className="relative z-10 flex items-center">
-                    <RefreshCwIcon className="mr-2 h-4 w-4 group-hover:animate-spin" />
-                    Réessayer
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-destructive/10 to-destructive/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                </Button>
-              </div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-xl p-6 shadow-sm max-w-md w-full mx-4">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <RefreshCwIcon className="w-8 h-8 text-red-600" />
             </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Impossible de charger la leçon
+            </h3>
+            <p className="text-gray-600 mb-6">{error}</p>
+            <Button onClick={() => loadLesson(lessonId)} className="w-full">
+              <RefreshCwIcon className="mr-2 h-4 w-4" />
+              Réessayer
+            </Button>
           </div>
         </div>
       </div>
@@ -230,19 +255,16 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
 
   if (!lesson) {
     return (
-      <div className="relative p-8 overflow-hidden rounded-2xl border border-border/40">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90 backdrop-blur-sm z-0"></div>
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
-        <div className="relative z-10">
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="relative">
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-border/40 to-border/10 blur-sm"></div>
-              <div className="relative rounded-full bg-muted/50 p-5 backdrop-blur-sm">
-                <FileIcon className="h-8 w-8 text-muted-foreground" />
-              </div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-xl p-6 shadow-sm max-w-md w-full mx-4">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FileIcon className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-xl font-medium mt-6 mb-2">Leçon introuvable</h3>
-            <p className="text-muted-foreground max-w-md">
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Leçon introuvable
+            </h3>
+            <p className="text-gray-600">
               Cette leçon n&apos;existe pas ou a été supprimée.
             </p>
           </div>
@@ -258,242 +280,333 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
       initial="initial"
       animate="animate"
       variants={stagger}
-      className="relative overflow-hidden rounded-2xl"
+      className="min-h-screen bg-gray-50"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90 backdrop-blur-sm z-0"></div>
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
-
-      <div className="relative z-10">
-        <motion.div variants={fadeIn} className="mb-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-            <div className="relative mb-4 md:mb-0">
-              <div className="absolute -left-3 top-2 h-12 w-1 bg-gradient-to-b from-primary/80 to-primary/20 rounded-full"></div>
-              <div className="pl-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                  <div className="flex items-center">
-                    <GlobeIcon className="mr-1.5 h-3.5 w-3.5" />
-                    <span>
-                      Finance & Patrimoine / Investissement & Patrimoine
-                    </span>
-                  </div>
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <motion.div variants={fadeIn} className="p-4 mb-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                <GlobeIcon className="w-4 h-4" />
+                <span>Finance & Patrimoine</span>
+                <span className="text-gray-400">•</span>
+                <span>Investissement & Patrimoine</span>
+              </div>
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3">
+                {lesson.title}
+              </h1>
+              <div className="flex items-center gap-4 text-sm text-gray-600">
+                <div className="flex items-center gap-1">
+                  <ClockIcon className="w-4 h-4" />
+                  <span>{lesson.duration || "18 min"}</span>
                 </div>
-                <h1 className="text-2xl font-bold tracking-tight">
-                  {lesson.title}
-                </h1>
+                <div className="flex items-center gap-1">
+                  <HashIcon className="w-4 h-4" />
+                  <span>Leçon {lesson.position || 1}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <StarIcon className="w-4 h-4 text-yellow-500" />
+                  <span className="font-medium">4.9</span>
+                  <span className="text-gray-500 hidden sm:inline">
+                    (248 avis)
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center text-sm text-muted-foreground">
-                <ClockIcon className="mr-1.5 h-3.5 w-3.5" />
-                <span>{lesson.duration || "18min"}</span>
-              </div>
-              <div className="flex items-center text-sm text-muted-foreground">
-                <HashIcon className="mr-1.5 h-3.5 w-3.5" />
-                <span>
-                  {lesson.position ? `Leçon ${lesson.position}` : "Leçon 1"}
-                </span>
-              </div>
+            <div className="flex items-center gap-3 flex-wrap">
               <Badge
                 variant="secondary"
-                className="bg-amber-500/10 text-amber-500 border-amber-500/20"
+                className="bg-green-100 text-green-700 border-green-200 px-3 py-1"
               >
-                4.9 (248 avis)
+                <CheckCircleIcon className="w-3 h-3 mr-1" />
+                Bestseller
               </Badge>
+              {/* Navigation buttons */}
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goToPreviousLesson}
+                  disabled={!previousLessonId}
+                  className="flex items-center gap-1"
+                >
+                  <ChevronLeftIcon className="w-4 h-4" />
+                  <span className="hidden sm:inline">Précédent</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goToNextLesson}
+                  disabled={!nextLessonId}
+                  className="flex items-center gap-1"
+                >
+                  <span className="hidden sm:inline">Suivant</span>
+                  <ChevronRightIcon className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </motion.div>
 
-        <motion.div variants={fadeIn} className="mb-8">
+        {/* Video Section */}
+        <motion.div variants={fadeIn} className="p-4 mb-4">
           {lesson.videoUrl ? (
-            <div className="rounded-xl overflow-hidden border border-border/60 shadow-sm relative bg-black">
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none z-10"></div>
-              <VideoPlayer
-                videoKey={lesson.videoUrl}
-                title={lesson.title}
-                onComplete={() => setVideoCompleted(true)}
-              />
+            <div className="relative">
+              <div className="aspect-video rounded-lg overflow-hidden bg-black">
+                <VideoPlayer
+                  videoKey={lesson.videoUrl}
+                  title={lesson.title}
+                  onComplete={() => setVideoCompleted(true)}
+                />
+              </div>
               {(videoCompleted || lessonCompleted) && (
-                <div className="absolute bottom-4 right-4 bg-green-500 text-white rounded-full p-2 shadow-lg z-20">
-                  <CheckCircleIcon className="h-5 w-5" />
+                <div className="absolute top-4 right-4 bg-green-500 text-white rounded-full p-2 shadow-lg">
+                  <CheckCircleIcon className="w-5 h-5" />
                 </div>
               )}
             </div>
           ) : (
-            <div className="rounded-xl overflow-hidden border border-border/60 shadow-sm relative bg-black h-[400px] flex items-center justify-center">
+            <div className="aspect-video rounded-lg bg-gray-100 flex items-center justify-center">
               <div className="text-center">
-                <PlayCircleIcon className="h-16 w-16 text-muted-foreground/40 mx-auto mb-4" />
-                <p className="text-muted-foreground">Vidéo non disponible</p>
+                <PlayCircleIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600">Vidéo non disponible</p>
               </div>
             </div>
           )}
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <motion.div variants={fadeIn} className="col-span-2">
-            <div className="flex items-center mb-4">
-              <div className="mr-3 p-1.5 rounded-full bg-blue-500/10">
-                <FileTextIcon className="h-5 w-5 text-blue-500" />
-              </div>
-              <h2 className="text-xl font-semibold">Contenu du cours</h2>
-            </div>
-            <div className="bg-card rounded-xl p-6 border border-border/60 shadow-sm">
-              {lesson.textContent ? (
-                <div
-                  className={cn(
-                    "prose prose-slate dark:prose-invert max-w-none",
-                    "relative"
-                  )}
-                >
-                  <p className="leading-relaxed whitespace-pre-wrap">
-                    {lesson.textContent}
-                  </p>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {/* Left Column - Course Content */}
+          <motion.div variants={slideIn} className="lg:col-span-2 space-y-4">
+            {/* Course Description */}
+            <div className="p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <FileTextIcon className="w-4 h-4 text-blue-600" />
                 </div>
-              ) : (
-                <p className="text-muted-foreground">
-                  Livret A, LDDS et autres livrets d&apos;épargne réglementée -
-                  contenu détaillé du cours.
-                </p>
-              )}
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Contenu du cours
+                </h2>
+              </div>
+              <div className="prose prose-gray max-w-none">
+                {lesson.textContent ? (
+                  <div className="text-gray-700 leading-relaxed whitespace-pre-wrap text-sm">
+                    {lesson.textContent}
+                  </div>
+                ) : (
+                  <div className="text-gray-700 leading-relaxed text-sm">
+                    <p className="mb-3">
+                      Cette leçon vous permettra de maîtriser les fondamentaux
+                      de l&apos;épargne de précaution et de comprendre les
+                      différents livrets d&apos;épargne réglementée disponibles.
+                    </p>
+                    <p className="mb-3">
+                      Nous détaillerons les caractéristiques du Livret A, LDDS,
+                      et autres produits d&apos;épargne réglementée, leurs
+                      conditions d&apos;accès et leurs avantages fiscaux.
+                    </p>
+                    <p>
+                      Vous apprendrez également les meilleures stratégies pour
+                      optimiser votre épargne et construire une réserve de
+                      précaution adaptée à votre situation.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* What You'll Learn */}
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                Objectifs d&apos;apprentissage
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  "Maîtriser le fonctionnement du Livret A et LDDS",
+                  "Comprendre les plafonds et taux d'intérêt",
+                  "Optimiser votre épargne de précaution",
+                  "Connaître les avantages fiscaux",
+                  "Choisir le bon produit d'épargne",
+                  "Éviter les erreurs courantes",
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircleIcon className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700 text-sm">{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.div>
 
-          <motion.div variants={fadeIn} className="col-span-1">
-            <div className="flex items-center mb-4">
-              <div className="mr-3 p-1.5 rounded-full bg-amber-500/10">
-                <FileIcon className="h-5 w-5 text-amber-500" />
-              </div>
-              <h2 className="text-xl font-semibold">Ressources</h2>
-            </div>
-            <div className="bg-card rounded-xl p-6 border border-border/60 shadow-sm">
-              {lesson.documentUrl ? (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-full group relative overflow-hidden"
-                >
-                  <a
-                    href={lesson.documentUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    <span className="relative z-10 flex items-center">
-                      <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
-                      epargne-precaution-bases.mp4
+          {/* Right Column - Sidebar */}
+          <motion.div variants={slideIn} className="lg:col-span-1">
+            <div className="sticky top-4 space-y-4">
+              {/* Course Info */}
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  Informations
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Durée</span>
+                    <span className="font-medium">
+                      {lesson.duration || "18 min"}
                     </span>
-                    <span className="text-xs text-muted-foreground">8 min</span>
-                  </a>
-                </Button>
-              ) : (
-                <div className="flex flex-col gap-3">
-                  <Button
-                    variant="outline"
-                    className="w-full group relative overflow-hidden"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    <span className="relative z-10 flex items-center justify-between w-full">
-                      <div className="flex items-center">
-                        <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
-                        epargne-precaution-bases.mp4
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        8 min
-                      </span>
-                    </span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full group relative overflow-hidden"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    <span className="relative z-10 flex items-center justify-between w-full">
-                      <div className="flex items-center">
-                        <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
-                        livrets-reglementés.pdf
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        12 min
-                      </span>
-                    </span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full group relative overflow-hidden"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    <span className="relative z-10 flex items-center justify-between w-full">
-                      <div className="flex items-center">
-                        <FileIcon className="mr-2 h-4 w-4 group-hover:text-amber-500 transition-colors" />
-                        fiscalité-livrets.pdf
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        10 min
-                      </span>
-                    </span>
-                  </Button>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Difficulté</span>
+                    <span className="font-medium">Débutant</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Format</span>
+                    <span className="font-medium">Vidéo + PDF</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Accès</span>
+                    <div className="flex items-center gap-1">
+                      <InfinityIcon className="w-4 h-4 text-green-500" />
+                      <span className="font-medium">Illimité</span>
+                    </div>
+                  </div>
                 </div>
-              )}
+              </div>
 
-              <div className="mt-6 space-y-3">
+              {/* Progress */}
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  Progression
+                </h3>
                 <Button
-                  variant="default"
-                  className={cn(
-                    "w-full",
-                    lessonCompleted
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-green-600 hover:bg-green-700"
-                  )}
+                  className="w-full text-white font-medium bg-green-600 hover:bg-green-700"
                   onClick={handleMarkAsCompleted}
                   disabled={isMarkingComplete || lessonCompleted}
                 >
-                  <CheckCircleIcon className="mr-2 h-4 w-4" />
+                  {isMarkingComplete ? (
+                    <RefreshCwIcon className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <CheckCircleIcon className="mr-2 h-4 w-4" />
+                  )}
                   {isMarkingComplete
-                    ? "Marquage en cours..."
+                    ? "Marquage..."
                     : lessonCompleted
-                    ? "Leçon terminée"
-                    : "Marquer comme terminé"}
+                    ? "Terminée"
+                    : "Marquer terminé"}
                 </Button>
+              </div>
 
-                {/* Navigation buttons */}
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={goToPreviousLesson}
-                    disabled={!previousLessonId}
-                  >
-                    <ChevronLeftIcon className="mr-2 h-4 w-4" />
-                    Précédent
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={goToNextLesson}
-                    disabled={!nextLessonId}
-                  >
-                    Suivant
-                    <ChevronRightIcon className="ml-2 h-4 w-4" />
-                  </Button>
+              {/* Resources */}
+              <div className="p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                    <FolderIcon className="w-4 h-4 text-amber-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Ressources
+                  </h3>
+                </div>
+                <div className="space-y-2">
+                  {lesson.documentUrl ? (
+                    <div className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                          <FileIcon className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900 text-sm">
+                            Support de cours
+                          </p>
+                          <p className="text-xs text-gray-500">PDF • 2.1 MB</p>
+                        </div>
+                      </div>
+                      <DownloadIcon className="w-4 h-4 text-gray-400" />
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <FileIcon className="w-4 h-4 text-blue-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900 text-sm">
+                              Guide épargne réglementée
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              PDF • 1.8 MB
+                            </p>
+                          </div>
+                        </div>
+                        <DownloadIcon className="w-4 h-4 text-gray-400" />
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                            <FileIcon className="w-4 h-4 text-green-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900 text-sm">
+                              Tableau comparatif livrets
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Excel • 0.9 MB
+                            </p>
+                          </div>
+                        </div>
+                        <DownloadIcon className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Instructor */}
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  Formateur
+                </h3>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                    EP
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-900">
+                      Expert Patrimoine
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                      Conseiller en gestion de patrimoine
+                    </p>
+                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <StarIcon className="w-3 h-3" />
+                        <span>4.8</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <UsersIcon className="w-3 h-3" />
+                        <span>3,247</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </motion.div>
         </div>
 
-        {lesson.createdAt && (
-          <motion.div
-            variants={fadeIn}
-            className="flex items-center text-sm text-muted-foreground mt-8 pt-4 border-t border-border/40"
-          >
-            <CalendarIcon className="mr-1.5 h-3.5 w-3.5" />
+        {/* Bottom Info */}
+        <motion.div variants={fadeIn} className="mt-6 p-4">
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+            <CalendarIcon className="w-4 h-4" />
             <span>
-              Créé le {new Date(lesson.createdAt).toLocaleDateString()}
+              Créé le{" "}
+              {lesson.createdAt
+                ? new Date(lesson.createdAt).toLocaleDateString()
+                : "15/12/2024"}
             </span>
-          </motion.div>
-        )}
+          </div>
+        </motion.div>
       </div>
-
     </motion.div>
   );
 }
