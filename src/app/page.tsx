@@ -6,6 +6,7 @@ import SolutionSection from "@/app/(public)/_components/solution-section/Solutio
 
 import React from "react";
 import SimplePricing from "@/app/(public)/_components/pricing/SectionPricing";
+import TargetAudienceSection from "./(public)/_components/target-audience-section/TargetAudienceSection";
 
 export default function HomePage() {
   return (
@@ -14,9 +15,8 @@ export default function HomePage() {
       <Hero />
       <ProblemSection />
       <SolutionSection />
-
+      <TargetAudienceSection />
       <SimplePricing />
-
       <BlogSection />
     </>
   );
