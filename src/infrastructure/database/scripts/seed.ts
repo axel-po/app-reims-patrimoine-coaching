@@ -7,7 +7,7 @@ import { user } from "../schemas/user.schema";
 import initDotEnv from "./env";
 
 const COURSES_COUNT = 1; // Only create 1 course
-const MODULES_PER_COURSE = 6;
+const MODULES_PER_COURSE = 4;
 const LESSONS_PER_MODULE = 4;
 const USER_PROGRESS_PERCENTAGE = 0.3; // 30% of users will have progress
 
@@ -183,18 +183,18 @@ async function seedDatabase() {
     console.log("📦 Seeding modules...");
     const allModules = [];
     const moduleTemplates = [
-      { title: "Les Fondamentaux", desc: "Bases essentielles à connaître" },
+      { title: "Apprendre", desc: "Bases essentielles à connaître" },
       {
-        title: "Épargne et Liquidités",
+        title: "Comprendre",
         desc: "Gérer sa trésorerie efficacement",
       },
       {
-        title: "Investissements",
+        title: "Mettre en place",
         desc: "Stratégies d'investissement avancées",
       },
-      { title: "Fiscalité", desc: "Optimisation fiscale légale" },
-      { title: "Gestion des Risques", desc: "Protéger son patrimoine" },
-      { title: "Transmission", desc: "Préparer la succession" },
+      { title: "Tenir", desc: "Optimisation fiscale légale" },
+      { title: "Apprendre", desc: "Protéger son patrimoine" },
+      { title: "Comprendre", desc: "Préparer la succession" },
     ];
 
     for (const course of coursesData) {
