@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const StagnantSavingsIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -159,12 +160,37 @@ const ProblemSection = () => {
           })}
         </div>
 
-        <div className="mt-24 text-center">
+        <div className="mt-24 text-center flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <Link href="/guide-gratuit">
+            <Button
+              size="lg"
+              className="group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-tr from-primary to-primary/80 px-8 py-7 text-lg font-bold text-primary-foreground shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/30"
+            >
+              <span className="absolute h-full w-full bg-gradient-to-tr from-primary/20 to-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <span className="relative z-10 flex items-center gap-3">
+                🎁 Obtenir le guide gratuit
+                <svg
+                  className="h-5 w-5 transform-gpu transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </span>
+            </Button>
+          </Link>
+          
           <Button
+            variant="outline"
             size="lg"
-            className="group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-tr from-primary to-primary/80 px-8 py-7 text-lg font-bold text-primary-foreground shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/30"
+            className="group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-full border-primary/20 px-8 py-7 text-lg font-medium text-primary transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary/5"
           >
-            <span className="absolute h-full w-full bg-gradient-to-tr from-primary/20 to-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             <span className="relative z-10 flex items-center gap-3">
               Devenir maître de mes finances
               <svg

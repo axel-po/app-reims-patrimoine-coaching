@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import directus from "@/lib/directus";
 import { readItems } from "@directus/sdk";
+import Link from "next/link";
 
 async function getGlobals() {
   return directus.request(readItems("hero"));
@@ -54,28 +55,30 @@ const Hero = async () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">
-            <Button
-              size="lg"
-              className="group relative overflow-hidden rounded-full px-8 py-6 text-base font-semibold transition-all duration-500 hover:shadow-2xl hover:shadow-primary/25 hover:scale-105"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                Découvrir le programme
-                <svg
-                  className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 transition-all duration-500 group-hover:from-primary/90 group-hover:to-primary/70" />
-            </Button>
+            <Link href="/guide-gratuit">
+              <Button
+                size="lg"
+                className="group relative overflow-hidden rounded-full px-8 py-6 text-base font-semibold transition-all duration-500 hover:shadow-2xl hover:shadow-primary/25 hover:scale-105"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  🎁 Guide gratuit
+                  <svg
+                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 transition-all duration-500 group-hover:from-primary/90 group-hover:to-primary/70" />
+              </Button>
+            </Link>
 
             <Button
               variant="outline"
@@ -96,7 +99,7 @@ const Hero = async () => {
                     d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M12 5a7 7 0 017 7 7 7 0 11-14 0 7 7 0 017-7z"
                   />
                 </svg>
-                En savoir plus
+                Découvrir le programme
               </span>
             </Button>
           </div>

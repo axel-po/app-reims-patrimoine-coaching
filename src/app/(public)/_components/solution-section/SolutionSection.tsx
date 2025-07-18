@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const SolutionSection = () => {
   const benefits = [
@@ -102,6 +104,37 @@ const SolutionSection = () => {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center mb-16">
+          <Link href="/guide-gratuit">
+            <Button
+              size="lg"
+              className="group relative overflow-hidden rounded-full px-8 py-6 text-lg font-semibold transition-all duration-500 hover:shadow-2xl hover:shadow-primary/25 hover:scale-105"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                🎁 Télécharger le guide gratuit
+                <svg
+                  className="h-5 w-5 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 transition-all duration-500 group-hover:from-primary/90 group-hover:to-primary/70" />
+            </Button>
+          </Link>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Évitez les 5 erreurs qui vous font perdre de l'argent
+          </p>
         </div>
 
         {/* Stats */}
