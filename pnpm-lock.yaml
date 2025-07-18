@@ -14,6 +14,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.848.0
         version: 3.848.0
+      '@directus/sdk':
+        specifier: ^20.0.0
+        version: 20.0.0
       '@dnd-kit/core':
         specifier: ^6.3.1
         version: 6.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -500,6 +503,10 @@ packages:
   '@csstools/css-tokenizer@3.0.4':
     resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
     engines: {node: '>=18'}
+
+  '@directus/sdk@20.0.0':
+    resolution: {integrity: sha512-DoKggMNaVWiKC2bU5BY+Nf6ia2Yz7hrKte0ZtSPXQVkl2mxwDtM0gLfOI6xxVY1CfnvyxJDu+d+21VjI4GYdyw==}
+    engines: {node: '>=22'}
 
   '@dnd-kit/accessibility@3.1.1':
     resolution: {integrity: sha512-2P+YgaXF+gRsIihwwY1gCsQSYnu9Zyj2py8kY5fFvUM1qm2WA2u639R6YNVfU4GWr+ZM5mqEsfHZZLoRONbemw==}
@@ -5124,6 +5131,8 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.4
 
   '@csstools/css-tokenizer@3.0.4': {}
+
+  '@directus/sdk@20.0.0': {}
 
   '@dnd-kit/accessibility@3.1.1(react@19.1.0)':
     dependencies:

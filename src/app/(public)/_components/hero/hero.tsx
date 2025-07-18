@@ -1,7 +1,15 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import directus from "@/lib/directus";
+import { readItems } from "@directus/sdk";
 
-const Hero = () => {
+async function getGlobals() {
+  return directus.request(readItems("hero"));
+}
+
+const Hero = async () => {
+  const global = await getGlobals();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background to-accent/5">
       {/* Animated background elements */}
@@ -22,15 +30,9 @@ const Hero = () => {
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <div className="text-center space-y-8">
-          {/* Badge */}
-          <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-primary backdrop-blur-sm">
-            <span className="mr-2 h-2 w-2 rounded-full bg-primary animate-pulse" />
-            Nouvelle formation disponible
-          </div>
-
           {/* Main heading */}
           <h1 className="mx-auto max-w-5xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-            <span className="block bg-gradient-to-r from-foreground to-foreground/90 bg-clip-text text-transparent">
+            {/* <span className="block bg-gradient-to-r from-foreground to-foreground/90 bg-clip-text text-transparent">
               Maîtrise ton argent,
             </span>
             <span className="block bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
@@ -38,14 +40,13 @@ const Hero = () => {
             </span>
             <span className="block bg-gradient-to-r from-foreground/90 to-foreground/80 bg-clip-text text-transparent">
               financière
-            </span>
+            </span> */}
+            {global.title}
           </h1>
 
           {/* Subtitle */}
           <p className="mx-auto max-w-2xl text-xl text-muted-foreground sm:text-2xl leading-relaxed">
-            Formation + coaching pour jeunes actifs qui veulent faire travailler
-            leur épargne, éviter l&apos;inflation, et construire leur liberté
-            financière.
+            {global.description}
           </p>
 
           {/* CTA Buttons */}
