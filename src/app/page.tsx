@@ -1,4 +1,3 @@
-import Hero from "@/app/(public)/_components/hero/Hero";
 import Nav from "@/app/(public)/_components/nav/Nav";
 import BlogSection from "@/app/(public)/_components/blog/BlogSection";
 import ProblemSection from "@/app/(public)/_components/problem-section/ProblemSection";
@@ -12,7 +11,7 @@ export default function HomePage() {
   return (
     <>
       <Nav />
-      <Hero />
+
       <ProblemSection />
       <SolutionSection />
       <TargetAudienceSection />
