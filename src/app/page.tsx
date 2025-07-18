@@ -6,12 +6,13 @@ import SolutionSection from "@/app/(public)/_components/solution-section/Solutio
 import React from "react";
 import SimplePricing from "@/app/(public)/_components/pricing/SectionPricing";
 import TargetAudienceSection from "./(public)/_components/target-audience-section/TargetAudienceSection";
+import Hero from "./(public)/_components/hero/hero";
 
 export default function HomePage() {
   return (
     <>
       <Nav />
-
+      <Hero />
       <ProblemSection />
       <SolutionSection />
       <TargetAudienceSection />
