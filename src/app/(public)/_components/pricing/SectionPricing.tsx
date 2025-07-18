@@ -3,6 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NumberFlow from "@number-flow/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -238,18 +239,20 @@ export default function SimplePricing() {
                   ))}
                 </CardContent>
                 <CardFooter>
-                  <Button
-                    variant={plan.popular ? "default" : "outline"}
-                    className={cn(
-                      "w-full font-medium transition-all duration-300",
-                      plan.popular
-                        ? "bg-primary hover:bg-primary/90 hover:shadow-md hover:shadow-primary/20"
-                        : "hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
-                    )}
-                  >
-                    {plan.cta}
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Button>
+                  <Link href="/payment" className="w-full">
+                    <Button
+                      variant={plan.popular ? "default" : "outline"}
+                      className={cn(
+                        "w-full font-medium transition-all duration-300",
+                        plan.popular
+                          ? "bg-primary hover:bg-primary/90 hover:shadow-md hover:shadow-primary/20"
+                          : "hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
+                      )}
+                    >
+                      {plan.cta}
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
                 </CardFooter>
 
                 {/* Subtle gradient effects */}

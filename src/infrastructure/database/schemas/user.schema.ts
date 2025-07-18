@@ -8,6 +8,12 @@ export const user = pgTable("user", {
     .$defaultFn(() => false)
     .notNull(),
   image: text("image"),
+  hasPaid: boolean("has_paid")
+    .$defaultFn(() => false)
+    .notNull(),
+  stripeCustomerId: text("stripe_customer_id"),
+  subscriptionStatus: text("subscription_status").$type<"active" | "inactive" | "canceled">(),
+  subscriptionId: text("subscription_id"),
   createdAt: timestamp("created_at")
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
@@ -60,4 +66,22 @@ export const verification = pgTable("verification", {
   ),
 });
 
+export const payment = pgTable("payment", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  stripePaymentIntentId: text("stripe_payment_intent_id").notNull(),
+  amount: text("amount").notNull(), // Store as string to avoid precision issues
+  currency: text("currency").notNull().default("eur"),
+  status: text("status").$type<"pending" | "succeeded" | "failed" | "canceled">().notNull(),
+  createdAt: timestamp("created_at")
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: timestamp("updated_at")
+    .$defaultFn(() => new Date())
+    .notNull(),
+});
+
 export type UserModel = typeof user.$inferSelect;
+export type PaymentModel = typeof payment.$inferSelect;

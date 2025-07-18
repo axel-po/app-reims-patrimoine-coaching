@@ -6,6 +6,7 @@ import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { navLinks, mobileNavLinks } from "./nav-links";
 import { useSession } from "@/lib/auth-client";
+import PaymentStatusBadge from "@/components/ui/payment-status-badge";
 
 export default function Nav() {
   const [activeLink, setActiveLink] = useState("/");
@@ -105,7 +106,11 @@ export default function Nav() {
             </ul>
           </nav>
 
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            {session?.user && (
+              <PaymentStatusBadge />
+            )}
+            
             <Link
               href={session?.user ? "/dashboard" : "/login"}
               className="hidden md:flex items-center"
@@ -184,6 +189,18 @@ export default function Nav() {
                 </Link>
               </li>
             ))}
+            {session?.user && (
+              <li
+                className={`pt-2 transition-all duration-300 ${
+                  menuOpen ? "" : "opacity-0"
+                }`}
+                style={{ transitionDelay: "300ms" }}
+              >
+                <div className="flex justify-center">
+                  <PaymentStatusBadge />
+                </div>
+              </li>
+            )}
             <li
               className={`pt-2 transition-all duration-300 ${
                 menuOpen ? "" : "opacity-0"
