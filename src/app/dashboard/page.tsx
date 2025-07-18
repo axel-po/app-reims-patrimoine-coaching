@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useQueryState } from "nuqs";
 import { LessonDetailView } from "@/userinterface/components/dashboard/lessons/lesson-detail-view";
 
-export default function Dashboard() {
+function DashboardContent() {
   const [selectedLessonId] = useQueryState("lessonId");
 
   return (
@@ -30,5 +30,13 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }

@@ -81,13 +81,13 @@ export default function ModuleAccordion({
 
     window.addEventListener(
       "lessonCompleted",
-      handleLessonCompleted as EventListener
+      handleLessonCompleted as unknown as EventListener
     );
 
     return () => {
       window.removeEventListener(
         "lessonCompleted",
-        handleLessonCompleted as EventListener
+        handleLessonCompleted as unknown as EventListener
       );
     };
   }, [user?.id, module.id]);

@@ -21,7 +21,7 @@ const ProblemSection = () => {
                 </span>
               </h2>
               <div className="mt-6 text-base sm:text-lg text-muted-foreground/70 font-medium">
-                L'inflation ne dort jamais.
+                L&apos;inflation ne dort jamais.
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, decimal } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -10,6 +10,7 @@ export const user = pgTable("user", {
   image: text("image"),
   subscriptionStatus: text("subscription_status"),
   subscriptionExpiresAt: timestamp("subscription_expires_at"),
+  stripeCustomerId: text("stripe_customer_id"),
   createdAt: timestamp("created_at")
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
@@ -62,4 +63,23 @@ export const verification = pgTable("verification", {
   ),
 });
 
+export const payment = pgTable("payment", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  stripePaymentIntentId: text("stripe_payment_intent_id").notNull().unique(),
+  stripeSessionId: text("stripe_session_id"),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  currency: text("currency").notNull().default("eur"),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at")
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+  updatedAt: timestamp("updated_at")
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
 export type UserModel = typeof user.$inferSelect;
+export type PaymentModel = typeof payment.$inferSelect;

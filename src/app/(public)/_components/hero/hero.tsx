@@ -44,7 +44,7 @@ const Hero = () => {
           {/* Subtitle */}
           <p className="mx-auto max-w-2xl text-xl text-muted-foreground sm:text-2xl leading-relaxed">
             Formation + coaching pour jeunes actifs qui veulent faire travailler
-            leur épargne, éviter l'inflation, et construire leur liberté
+            leur épargne, éviter l&apos;inflation, et construire leur liberté
             financière.
           </p>
 
