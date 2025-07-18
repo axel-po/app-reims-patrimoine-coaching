@@ -18,65 +18,29 @@ import { motion } from "framer-motion";
 
 const plans = [
   {
-    id: "hobby",
-    name: "Hobby",
-    icon: Star,
-    price: {
-      monthly: "Free forever",
-      yearly: "Free forever",
-    },
-    description:
-      "The perfect starting place for your web app or personal project.",
-    features: [
-      "50 API calls / month",
-      "60 second checks",
-      "Single-user account",
-      "5 monitors",
-      "Basic email support",
-    ],
-    cta: "Get started for free",
-  },
-  {
-    id: "pro",
-    name: "Pro",
+    id: "coaching",
+    name: "Coaching Complet",
     icon: Zap,
     price: {
-      monthly: 90,
-      yearly: 75,
+      oneTime: 299,
+      installments: 99,
     },
-    description: "Everything you need to build and scale your business.",
+    description: "Accompagnement personnalisé pour optimiser votre patrimoine.",
     features: [
-      "Unlimited API calls",
-      "30 second checks",
-      "Multi-user account",
-      "10 monitors",
-      "Priority email support",
+      "Bilan patrimonial complet",
+      "Stratégie d'investissement personnalisée",
+      "Séances de coaching individuelles",
+      "Accès aux formations exclusives",
+      "Support prioritaire 7j/7",
+      "Suivi trimestriel de vos investissements",
     ],
-    cta: "Subscribe to Pro",
+    cta: "Commencer le coaching",
     popular: true,
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    icon: Shield,
-    price: {
-      monthly: "Get in touch for pricing",
-      yearly: "Get in touch for pricing",
-    },
-    description: "Critical security, performance, observability and support.",
-    features: [
-      "You can DDOS our API.",
-      "Nano-second checks.",
-      "Invite your extended family.",
-      "Unlimited monitors.",
-      "We'll sit on your desk.",
-    ],
-    cta: "Contact us",
   },
 ];
 
 export default function SimplePricing() {
-  const [frequency, setFrequency] = useState<string>("monthly");
+  const [frequency, setFrequency] = useState<string>("oneTime");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -100,7 +64,7 @@ export default function SimplePricing() {
             className="mb-4 rounded-full border-primary/20 bg-primary/5 px-4 py-1 text-sm font-medium"
           >
             <Sparkles className="mr-1 h-3.5 w-3.5 animate-pulse text-primary" />
-            Pricing Plans
+            Nos Formules
           </Badge>
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
@@ -108,7 +72,7 @@ export default function SimplePricing() {
             transition={{ duration: 0.5 }}
             className="bg-gradient-to-b from-foreground to-foreground/30 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl"
           >
-            Pick the perfect plan for your needs
+            Investissez dans votre avenir financier
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -116,8 +80,7 @@ export default function SimplePricing() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="max-w-md pt-2 text-lg text-muted-foreground"
           >
-            Simple, transparent pricing that scales with your business. No
-            hidden fees, no surprises.
+            Prenez le contrôle de vos finances et développez un patrimoine solide grâce à un accompagnement sur-mesure.
           </motion.p>
         </div>
 
@@ -133,28 +96,28 @@ export default function SimplePricing() {
           >
             <TabsList className="bg-transparent">
               <TabsTrigger
-                value="monthly"
+                value="oneTime"
                 className="rounded-full transition-all duration-300 data-[state=active]:bg-background data-[state=active]:shadow-sm"
               >
-                Monthly
+                Paiement unique
               </TabsTrigger>
               <TabsTrigger
-                value="yearly"
+                value="installments"
                 className="rounded-full transition-all duration-300 data-[state=active]:bg-background data-[state=active]:shadow-sm"
               >
-                Yearly
+                3x sans frais
                 <Badge
                   variant="secondary"
                   className="ml-2 bg-primary/10 text-primary hover:bg-primary/15"
                 >
-                  20% off
+                  3x 99€
                 </Badge>
               </TabsTrigger>
             </TabsList>
           </Tabs>
         </motion.div>
 
-        <div className="mt-8 grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mt-8 flex w-full max-w-md justify-center">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.id}
@@ -162,7 +125,7 @@ export default function SimplePricing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
               whileHover={{ y: -5 }}
-              className="flex"
+              className="w-full"
             >
               <Card
                 className={cn(
@@ -217,7 +180,7 @@ export default function SimplePricing() {
                             )}
                             format={{
                               style: "currency",
-                              currency: "USD",
+                              currency: "EUR",
                               maximumFractionDigits: 0,
                             }}
                             value={
@@ -227,7 +190,7 @@ export default function SimplePricing() {
                             }
                           />
                           <span className="ml-1 text-sm text-muted-foreground">
-                            /month, billed {frequency}
+                            {frequency === "oneTime" ? "paiement unique" : "par mois (3 fois)"}
                           </span>
                         </div>
                       ) : (
