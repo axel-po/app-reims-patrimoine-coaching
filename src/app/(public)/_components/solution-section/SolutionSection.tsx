@@ -16,21 +16,21 @@ const SolutionSection = () => {
       <div className="absolute bottom-20 left-20 w-80 h-80 bg-primary/3 rounded-full blur-2xl" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        {/* Centered Header */}
-        <div className="text-center mb-20">
-          <div className="flex justify-center mb-6">
-            <div className="text-6xl">🚀</div>
-          </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
-            <span className="block text-primary">Reims Patrimoine</span>
-            <span className="text-foreground">: Coaching</span>
-            <span className="block text-2xl sm:text-3xl lg:text-4xl text-foreground font-normal mt-2">
-              + Formation pour prendre enfin les
-            </span>
-            <span className="block text-2xl sm:text-3xl lg:text-4xl text-primary font-normal">
-              bonnes décisions financières
+        <div className="mx-auto max-w-4xl text-center mb-20">
+          <span className="font-semibold uppercase tracking-wider text-primary">
+            La Solution
+          </span>
+          <h2 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+            Reprenez le contrôle.
+            <br />
+            <span className="bg-gradient-to-br from-primary via-primary/80 to-foreground/80 bg-clip-text text-transparent">
+              Investissez avec confiance.
             </span>
           </h2>
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground sm:text-xl">
+            Notre programme de coaching et de formation est conçu pour vous
+            donner les clés de l&apos;investissement, simplement et sans jargon.
+          </p>
         </div>
 
         {/* Main Content Grid */}

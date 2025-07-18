@@ -8,7 +8,7 @@ async function getGlobals() {
 }
 
 const Hero = async () => {
-  const global = await getGlobals();
+  // const global = await getGlobals();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background to-accent/5">
@@ -32,7 +32,7 @@ const Hero = async () => {
         <div className="text-center space-y-8">
           {/* Main heading */}
           <h1 className="mx-auto max-w-5xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-            {/* <span className="block bg-gradient-to-r from-foreground to-foreground/90 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-foreground to-foreground/90 bg-clip-text text-transparent">
               Maîtrise ton argent,
             </span>
             <span className="block bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
@@ -40,13 +40,16 @@ const Hero = async () => {
             </span>
             <span className="block bg-gradient-to-r from-foreground/90 to-foreground/80 bg-clip-text text-transparent">
               financière
-            </span> */}
-            {global.title}
+            </span>
+            {/* {global.title} */}
           </h1>
 
           {/* Subtitle */}
           <p className="mx-auto max-w-2xl text-xl text-muted-foreground sm:text-2xl leading-relaxed">
-            {global.description}
+            Formation + coaching pour jeunes actifs qui veulent faire travailler
+            leur épargne, éviter l’inflation, et construire leur liberté
+            financière.
+            {/* {global.description} */}
           </p>
 
           {/* CTA Buttons */}
