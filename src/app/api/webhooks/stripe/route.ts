@@ -20,10 +20,7 @@ export async function POST(request: NextRequest) {
   const sig = request.headers.get("stripe-signature");
 
   if (!sig) {
-    return NextResponse.json(
-      { error: "Signature manquante" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Signature manquante" }, { status: 400 });
   }
 
   let event: Stripe.Event;
@@ -32,10 +29,7 @@ export async function POST(request: NextRequest) {
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err) {
     console.error("Erreur validation webhook:", err);
-    return NextResponse.json(
-      { error: "Signature invalide" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Signature invalide" }, { status: 400 });
   }
 
   try {
@@ -43,7 +37,7 @@ export async function POST(request: NextRequest) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.userId;
-        
+
         if (!userId) {
           console.error("UserId manquant dans les métadonnées");
           return NextResponse.json(
@@ -52,20 +46,20 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        // Mettre à jour le statut de paiement de l'utilisateur
         await db
           .update(user)
-          .set({ 
+          .set({
             hasPaid: true,
             subscriptionStatus: "active",
-            updatedAt: new Date()
+            updatedAt: new Date(),
           })
           .where(eq(user.id, userId));
 
-        // Enregistrer le paiement
         if (session.payment_intent) {
           await db.insert(payment).values({
-            id: `payment_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            id: `payment_${Date.now()}_${Math.random()
+              .toString(36)
+              .substr(2, 9)}`,
             userId,
             stripePaymentIntentId: session.payment_intent.toString(),
             amount: session.amount_total?.toString() || "0",
@@ -82,13 +76,12 @@ export async function POST(request: NextRequest) {
 
       case "payment_intent.payment_failed": {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        
-        // Mettre à jour le statut du paiement
+
         await db
           .update(payment)
-          .set({ 
+          .set({
             status: "failed",
-            updatedAt: new Date()
+            updatedAt: new Date(),
           })
           .where(eq(payment.stripePaymentIntentId, paymentIntent.id));
 

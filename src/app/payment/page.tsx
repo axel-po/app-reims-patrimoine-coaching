@@ -6,13 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Nav from "@/app/(public)/_components/nav/Nav";
 import PaymentForm from "./payment-form";
 
 export default function PaymentPage() {
   return (
     <>
-      <Nav />
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div className="text-center mb-12">
@@ -26,7 +24,6 @@ export default function PaymentPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Détails de la formation */}
             <Card className="border-2">
               <CardHeader>
                 <CardTitle className="text-2xl">
@@ -76,7 +73,6 @@ export default function PaymentPage() {
               </CardContent>
             </Card>
 
-            {/* Formulaire de paiement */}
             <Card className="border-2 border-primary/20">
               <CardHeader>
                 <CardTitle className="text-xl">Paiement sécurisé</CardTitle>
@@ -90,7 +86,6 @@ export default function PaymentPage() {
             </Card>
           </div>
 
-          {/* Garanties et sécurité */}
           <div className="mt-12 text-center">
             <div className="flex flex-wrap items-center justify-center gap-8">
               <div className="flex items-center gap-2">

@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-
 const Hero = async () => {
   // const global = await getGlobals();
 

@@ -22,17 +22,20 @@ const LeadMagnet = () => {
               Télécharge gratuitement :
             </h2>
             <h3 className="text-xl md:text-2xl font-semibold text-primary leading-tight">
-              Le Guide Express &ldquo;5 erreurs qui te font perdre de l&apos;argent quand tu laisses ton épargne dormir&rdquo;
+              Le Guide Express &ldquo;5 erreurs qui te font perdre de
+              l&apos;argent quand tu laisses ton épargne dormir&rdquo;
             </h3>
           </div>
 
           {/* Hook text */}
           <div className="space-y-4">
             <p className="text-lg md:text-xl text-foreground font-medium">
-              Tu épargnes, mais tu ne sais pas comment faire fructifier ton argent ?
+              Tu épargnes, mais tu ne sais pas comment faire fructifier ton
+              argent ?
             </p>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              Avant d&apos;investir, découvre ce que 95 % des jeunes actifs font mal avec leur argent — et comment toi tu peux éviter ces pièges.
+              Avant d&apos;investir, découvre ce que 95 % des jeunes actifs font
+              mal avec leur argent — et comment toi tu peux éviter ces pièges.
             </p>
           </div>
 
