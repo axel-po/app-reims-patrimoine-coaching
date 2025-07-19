@@ -22,7 +22,7 @@ const LeadMagnet = () => {
               Télécharge gratuitement :
             </h2>
             <h3 className="text-xl md:text-2xl font-semibold text-primary leading-tight">
-              Le Guide Express "5 erreurs qui te font perdre de l'argent quand tu laisses ton épargne dormir"
+              Le Guide Express &ldquo;5 erreurs qui te font perdre de l&apos;argent quand tu laisses ton épargne dormir&rdquo;
             </h3>
           </div>
 
@@ -32,7 +32,7 @@ const LeadMagnet = () => {
               Tu épargnes, mais tu ne sais pas comment faire fructifier ton argent ?
             </p>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              Avant d'investir, découvre ce que 95 % des jeunes actifs font mal avec leur argent — et comment toi tu peux éviter ces pièges.
+              Avant d&apos;investir, découvre ce que 95 % des jeunes actifs font mal avec leur argent — et comment toi tu peux éviter ces pièges.
             </p>
           </div>
 
@@ -45,19 +45,19 @@ const LeadMagnet = () => {
               <li className="flex items-start gap-3">
                 <span className="text-green-500 font-bold text-lg">✅</span>
                 <span className="text-muted-foreground">
-                  Pourquoi ton compte courant t'appauvrit lentement
+                  Pourquoi ton compte courant t&apos;appauvrit lentement
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-green-500 font-bold text-lg">✅</span>
                 <span className="text-muted-foreground">
-                  Les placements "sûrs" qui ne le sont pas vraiment
+                  Les placements &ldquo;sûrs&rdquo; qui ne le sont pas vraiment
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-green-500 font-bold text-lg">✅</span>
                 <span className="text-muted-foreground">
-                  Comment faire un premier pas simple vers l'investissement
+                  Comment faire un premier pas simple vers l&apos;investissement
                 </span>
               </li>
               <li className="flex items-start gap-3">

@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Sparkles, ArrowRight, Check, Star, Zap, Shield } from "lucide-react";
+import { Sparkles, ArrowRight, Check, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 

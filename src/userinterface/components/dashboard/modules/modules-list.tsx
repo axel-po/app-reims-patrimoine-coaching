@@ -19,7 +19,7 @@ export default function ModulesList({ courseId }: ModulesListProps) {
     if (courseId) {
       loadModulesByCourseId(courseId);
     }
-  }, [courseId]);
+  }, [courseId, loadModulesByCourseId]);
 
   // Auto-select first lesson of first module when modules are loaded
   useEffect(() => {

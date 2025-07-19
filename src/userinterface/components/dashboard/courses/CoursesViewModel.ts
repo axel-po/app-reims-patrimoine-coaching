@@ -16,7 +16,7 @@ export function useCoursesViewModel() {
     if (courses.length === 0 && !isLoading && !error) {
       fetchCourses();
     }
-  }, [courses.length, isLoading, error]);
+  }, [courses.length, isLoading, error, fetchCourses]);
 
   const handleRefresh = async () => {
     await refreshCourses();

@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-export default function PaymentForm() {
+function PaymentFormContent() {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
   
   const redirectUrl = searchParams.get("redirect");
@@ -106,7 +105,7 @@ export default function PaymentForm() {
       <div className="text-center text-xs text-muted-foreground">
         En procédant au paiement, vous acceptez nos{" "}
         <a href="#" className="text-primary hover:underline">
-          conditions d'utilisation
+          conditions d&apos;utilisation
         </a>{" "}
         et notre{" "}
         <a href="#" className="text-primary hover:underline">
@@ -115,5 +114,13 @@ export default function PaymentForm() {
         .
       </div>
     </div>
+  );
+}
+
+export default function PaymentForm() {
+  return (
+    <Suspense fallback={<div className="text-center">Chargement...</div>}>
+      <PaymentFormContent />
+    </Suspense>
   );
 }

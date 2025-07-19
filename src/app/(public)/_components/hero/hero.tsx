@@ -1,12 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import directus from "@/lib/directus";
-import { readItems } from "@directus/sdk";
 import Link from "next/link";
 
-async function getGlobals() {
-  return directus.request(readItems("hero"));
-}
 
 const Hero = async () => {
   // const global = await getGlobals();

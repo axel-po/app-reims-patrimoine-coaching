@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Nav from "@/app/(public)/_components/nav/Nav";
 import PaymentForm from "./payment-form";
@@ -15,7 +14,7 @@ export default function PaymentPage() {
               Accédez à la formation complète
             </h1>
             <p className="text-lg text-muted-foreground">
-              Pour continuer et accéder au dashboard, vous devez débloquer l'accès à la formation.
+              Pour continuer et accéder au dashboard, vous devez débloquer l&apos;accès à la formation.
             </p>
           </div>
 
@@ -69,7 +68,7 @@ export default function PaymentPage() {
               <CardHeader>
                 <CardTitle className="text-xl">Paiement sécurisé</CardTitle>
                 <CardDescription>
-                  Procédez au paiement pour débloquer l'accès immédiatement
+                  Procédez au paiement pour débloquer l&apos;accès immédiatement
                 </CardDescription>
               </CardHeader>
               <CardContent>

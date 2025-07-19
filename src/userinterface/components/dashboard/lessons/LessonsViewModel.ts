@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLessonsPresenter } from "@/infrastructure/presenters/lessons.presenter";
 import { Lesson } from "@/domain/models/lessons.interface";
 import { getLessonsByModuleIdAction } from "@/userinterface/actions/lessons.actions";
@@ -62,7 +62,7 @@ export function useModuleLessonsViewModel(moduleId: string) {
     error: null,
   });
 
-  const loadLessons = async () => {
+  const loadLessons = useCallback(async () => {
     // Don't load if already loaded
     if (state.lessons.length > 0) return;
 
@@ -91,7 +91,7 @@ export function useModuleLessonsViewModel(moduleId: string) {
         error: err instanceof Error ? err.message : "Error loading lessons",
       }));
     }
-  };
+  }, [moduleId, state.lessons.length]);
 
   const hasLessonWithId = (lessonId: string) => {
     return state.lessons.some((lesson) => lesson.id === lessonId);
@@ -101,7 +101,7 @@ export function useModuleLessonsViewModel(moduleId: string) {
     if (moduleId) {
       loadLessons();
     }
-  }, [moduleId]);
+  }, [moduleId, loadLessons]);
 
   return {
     ...state,
@@ -125,7 +125,7 @@ export function useLessonViewModel(lessonId: string | null) {
     error: null,
   });
 
-  const loadLesson = async (id: string) => {
+  const loadLesson = useCallback(async (id: string) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
@@ -143,13 +143,13 @@ export function useLessonViewModel(lessonId: string | null) {
         error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
-  };
+  }, [getLessonById]);
 
   useEffect(() => {
     if (lessonId) {
       loadLesson(lessonId);
     }
-  }, [lessonId]);
+  }, [lessonId, loadLesson]);
 
   return {
     ...state,

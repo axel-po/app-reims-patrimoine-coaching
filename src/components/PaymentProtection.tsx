@@ -29,7 +29,7 @@ export default function PaymentProtection({ children, showDebug = false }: Payme
       <div className="min-h-screen flex items-center justify-center">
         <Card className="max-w-md">
           <CardHeader>
-            <CardTitle className="text-red-600">Erreur d'accès</CardTitle>
+            <CardTitle className="text-red-600">Erreur d&apos;accès</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">{error}</p>

@@ -133,7 +133,7 @@ const SolutionSection = () => {
             </Button>
           </Link>
           <p className="mt-4 text-sm text-muted-foreground">
-            Évitez les 5 erreurs qui vous font perdre de l'argent
+            Évitez les 5 erreurs qui vous font perdre de l&apos;argent
           </p>
         </div>
 
