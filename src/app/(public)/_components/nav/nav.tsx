@@ -8,7 +8,7 @@ import { navLinks, mobileNavLinks } from "./nav-links";
 import { useSession } from "@/lib/auth-client";
 import PaymentStatusBadge from "@/components/ui/payment-status-badge";
 
-export default function Nav() {
+const Nav = () => {
   const [activeLink, setActiveLink] = useState("/");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -107,10 +107,8 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-3">
-            {session?.user && (
-              <PaymentStatusBadge />
-            )}
-            
+            {session?.user && <PaymentStatusBadge />}
+
             <Link
               href={session?.user ? "/dashboard" : "/login"}
               className="hidden md:flex items-center"
@@ -220,4 +218,6 @@ export default function Nav() {
       </div>
     </header>
   );
-}
+};
+
+export default Nav;

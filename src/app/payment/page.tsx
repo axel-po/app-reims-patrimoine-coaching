@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Nav from "@/app/(public)/_components/nav/nav";
+import Nav from "@/app/(public)/_components/nav/Nav";
 import PaymentForm from "./payment-form";
 
 export default function PaymentPage() {
