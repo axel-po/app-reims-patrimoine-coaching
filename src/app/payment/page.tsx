@@ -1,6 +1,12 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Nav from "@/app/(public)/_components/nav/Nav";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Nav from "@/app/(public)/_components/nav/nav";
 import PaymentForm from "./payment-form";
 
 export default function PaymentPage() {
@@ -14,7 +20,8 @@ export default function PaymentPage() {
               Accédez à la formation complète
             </h1>
             <p className="text-lg text-muted-foreground">
-              Pour continuer et accéder au dashboard, vous devez débloquer l&apos;accès à la formation.
+              Pour continuer et accéder au dashboard, vous devez débloquer
+              l&apos;accès à la formation.
             </p>
           </div>
 
@@ -22,7 +29,9 @@ export default function PaymentPage() {
             {/* Détails de la formation */}
             <Card className="border-2">
               <CardHeader>
-                <CardTitle className="text-2xl">Formation Patrimoine & Investissement</CardTitle>
+                <CardTitle className="text-2xl">
+                  Formation Patrimoine & Investissement
+                </CardTitle>
                 <CardDescription>
                   Tout ce dont vous avez besoin pour maîtriser vos finances
                 </CardDescription>
@@ -55,8 +64,12 @@ export default function PaymentPage() {
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-medium">Prix total</span>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-primary">297€</div>
-                      <div className="text-sm text-muted-foreground">Paiement unique</div>
+                      <div className="text-2xl font-bold text-primary">
+                        297€
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Paiement unique
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -81,22 +94,52 @@ export default function PaymentPage() {
           <div className="mt-12 text-center">
             <div className="flex flex-wrap items-center justify-center gap-8">
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-green-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
                 </svg>
-                <span className="text-sm text-muted-foreground">Paiement sécurisé SSL</span>
+                <span className="text-sm text-muted-foreground">
+                  Paiement sécurisé SSL
+                </span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-green-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
                 </svg>
-                <span className="text-sm text-muted-foreground">Garantie satisfait ou remboursé 30 jours</span>
+                <span className="text-sm text-muted-foreground">
+                  Garantie satisfait ou remboursé 30 jours
+                </span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-green-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
                 </svg>
-                <span className="text-sm text-muted-foreground">Accès immédiat</span>
+                <span className="text-sm text-muted-foreground">
+                  Accès immédiat
+                </span>
               </div>
             </div>
           </div>

@@ -16,7 +16,6 @@ export default function HomePage() {
       <Hero />
       <ProblemSection />
       <SolutionSection />
-
       <BenefitsSection />
       <SimplePricing />
       <BlogSection />
