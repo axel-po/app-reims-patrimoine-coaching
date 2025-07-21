@@ -81,7 +81,8 @@ export default function SimplePricing() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="max-w-md pt-2 text-lg text-muted-foreground"
           >
-            Prenez le contrôle de vos finances et développez un patrimoine solide grâce à un accompagnement sur-mesure.
+            Prenez le contrôle de vos finances et développez un patrimoine
+            solide grâce à un accompagnement sur-mesure.
           </motion.p>
         </div>
 
@@ -191,7 +192,9 @@ export default function SimplePricing() {
                             }
                           />
                           <span className="ml-1 text-sm text-muted-foreground">
-                            {frequency === "oneTime" ? "paiement unique" : "par mois (3 fois)"}
+                            {frequency === "oneTime"
+                              ? "paiement unique"
+                              : "par mois (3 fois)"}
                           </span>
                         </div>
                       ) : (

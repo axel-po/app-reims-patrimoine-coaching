@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Nav from "@/app/(public)/_components/nav/Nav";
 
 interface PageProps {
   params: Promise<{
@@ -56,10 +57,10 @@ const articles: Article[] = [
     `,
     category: "Patrimoine",
     date: "15 Juin 2023",
-    author: "Sophie Martin",
-    authorTitle: "Conseillère en gestion de patrimoine",
+    author: "Maxime Godon",
+    authorTitle: "Conseiller en gestion de patrimoine",
     authorBio:
-      "Diplômée d'un Master en Gestion de Patrimoine, Sophie accompagne depuis 8 ans les jeunes actifs dans l'optimisation de leurs placements financiers.",
+      "Diplômé d'un Master en Gestion de Patrimoine, Maxime accompagne depuis 8 ans les jeunes actifs dans l'optimisation de leurs placements financiers.",
     authorImage: "/coaches/coach2.jpg",
     readTime: "8 min",
     image: "/blog/assurance-vie.jpg",
@@ -247,6 +248,7 @@ export default async function ArticlePage({ params }: PageProps) {
   if (!article) {
     return (
       <>
+        <Nav />
         <div className="max-w-3xl mx-auto px-6 py-40 text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-6">
             Article non trouvé
@@ -289,6 +291,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
   return (
     <>
+      <Nav />
       <div className="w-full pt-32 pb-20 relative overflow-hidden bg-gray-50">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-400 z-10"></div>
         <div className="absolute -top-[30%] -right-[10%] w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -615,41 +618,9 @@ export default async function ArticlePage({ params }: PageProps) {
                 <NewsletterSignup />
 
                 {/* Widget catégories avec style cohérent */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 shadow-md relative overflow-hidden">
-                  {/* Éléments décoratifs */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-400"></div>
-                  <div className="absolute -top-10 -right-10 w-24 h-24 bg-blue-500/5 rounded-full blur-xl"></div>
-                  <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-purple-500/5 rounded-full blur-lg"></div>
+                {/*  */}
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-5 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-                    Catégories
-                  </h3>
-
-                  <div className="space-y-1">
-                    {[
-                      "Patrimoine",
-                      "Immobilier",
-                      "Fiscalité",
-                      "Investissement",
-                      "Épargne",
-                    ].map((category) => (
-                      <a
-                        key={category}
-                        href="#"
-                        className="relative block text-gray-700 hover:text-blue-600 transition-colors py-2.5 border-b border-gray-100 text-sm group"
-                      >
-                        <div className="flex items-center">
-                          <span className="w-0 h-6 bg-blue-500/10 rounded group-hover:w-full transition-all absolute"></span>
-                          <span className="relative ml-3 group-hover:ml-5 transition-all duration-300">
-                            {category}
-                          </span>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl p-6 shadow-md relative overflow-hidden">
+                {/* <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl p-6 shadow-md relative overflow-hidden">
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-400"></div>
 
                   <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -667,7 +638,7 @@ export default async function ArticlePage({ params }: PageProps) {
                   >
                     Prendre rendez-vous
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@ import React from "react";
 import CardArticle, {
   ArticleProps,
 } from "@/app/(public)/_components/blog/CardArticle";
+import Nav from "@/app/(public)/_components/nav/Nav";
 
 export default function BlogPage() {
   const articles: ArticleProps[] = [
@@ -91,7 +92,9 @@ export default function BlogPage() {
   const categories = Object.keys(categoriesMap).sort();
 
   return (
-    <main className="pt-24 pb-32">
+    <>
+      <Nav />
+      <main className="pt-24 pb-32">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
@@ -177,5 +180,6 @@ export default function BlogPage() {
         </div>
       </div>
     </main>
+    </>
   );
 }
