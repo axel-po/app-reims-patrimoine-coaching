@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Nav from "@/app/(public)/_components/nav/Nav";
+import Nav from "@/app/(public)/_components/hero/nav";
 
 interface PageProps {
   params: Promise<{

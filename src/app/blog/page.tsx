@@ -2,7 +2,7 @@ import React from "react";
 import CardArticle, {
   ArticleProps,
 } from "@/app/(public)/_components/blog/CardArticle";
-import Nav from "@/app/(public)/_components/nav/Nav";
+import Nav from "@/app/(public)/_components/hero/nav";
 
 export default function BlogPage() {
   const articles: ArticleProps[] = [
