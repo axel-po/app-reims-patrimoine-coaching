@@ -5,13 +5,12 @@ if (!process.env.STRIPE_SECRET_KEY) {
 }
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-06-30.basil",
   typescript: true,
 });
 
 export const STRIPE_CONFIG = {
   currency: "eur",
-  course_price: 29700, // 297€ en centimes
+  course_price: 29700,
   success_url: "/dashboard",
   cancel_url: "/guide-gratuit",
 } as const;
