@@ -95,91 +95,91 @@ export default function BlogPage() {
     <>
       <Nav />
       <main className="pt-24 pb-32">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            <span className="relative inline-block">
-              Notre Blog
-              <div className="absolute -bottom-1 left-0 right-0 h-3 bg-indigo-100 -z-10"></div>
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Explorez nos articles rédigés par des experts pour vous guider dans
-            la construction et l&apos;optimisation de votre patrimoine.
-          </p>
-        </div>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h1 className="text-5xl font-bold text-gray-900 mb-6">
+              <span className="relative inline-block">
+                Notre Blog
+                <div className="absolute -bottom-1 left-0 right-0 h-3 bg-indigo-100 -z-10"></div>
+              </span>
+            </h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Explorez nos articles rédigés par des experts pour vous guider
+              dans la construction et l&apos;optimisation de votre patrimoine.
+            </p>
+          </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-16">
-          <button className="px-5 py-2 rounded-full bg-indigo-600 text-white font-medium text-sm hover:bg-indigo-700 transition-colors">
-            Tous
-          </button>
-          {categories.map((category) => (
-            <button
-              key={category}
-              className="px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium text-sm hover:border-indigo-600 hover:text-indigo-600 transition-colors"
-            >
-              {category}
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
+            <button className="px-5 py-2 rounded-full bg-indigo-600 text-white font-medium text-sm hover:bg-indigo-700 transition-colors">
+              Tous
             </button>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article) => (
-            <CardArticle key={article.id} article={article} />
-          ))}
-        </div>
-
-        <div className="flex justify-center mt-16">
-          <div className="flex items-center gap-2">
-            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-indigo-600 hover:text-indigo-600 transition-colors">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {categories.map((category) => (
+              <button
+                key={category}
+                className="px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium text-sm hover:border-indigo-600 hover:text-indigo-600 transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-medium">
-              1
-            </button>
-            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 font-medium hover:border-indigo-600 hover:text-indigo-600 transition-colors">
-              2
-            </button>
-            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 font-medium hover:border-indigo-600 hover:text-indigo-600 transition-colors">
-              3
-            </button>
-            <span className="w-10 h-10 flex items-center justify-center text-gray-500">
-              ...
-            </span>
-            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 font-medium hover:border-indigo-600 hover:text-indigo-600 transition-colors">
-              8
-            </button>
-            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-indigo-600 hover:text-indigo-600 transition-colors">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
+                {category}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {articles.map((article) => (
+              <CardArticle key={article.id} article={article} />
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-16">
+            <div className="flex items-center gap-2">
+              <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-indigo-600 hover:text-indigo-600 transition-colors">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-medium">
+                1
+              </button>
+              <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 font-medium hover:border-indigo-600 hover:text-indigo-600 transition-colors">
+                2
+              </button>
+              <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 font-medium hover:border-indigo-600 hover:text-indigo-600 transition-colors">
+                3
+              </button>
+              <span className="w-10 h-10 flex items-center justify-center text-gray-500">
+                ...
+              </span>
+              <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 font-medium hover:border-indigo-600 hover:text-indigo-600 transition-colors">
+                8
+              </button>
+              <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-indigo-600 hover:text-indigo-600 transition-colors">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
     </>
   );
 }
